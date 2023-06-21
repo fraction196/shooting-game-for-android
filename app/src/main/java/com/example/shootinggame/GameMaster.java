@@ -1,9 +1,12 @@
 package com.example.shootinggame;
 
 import android.content.Context;
+import android.media.AudioManager;
 import android.opengl.GLSurfaceView;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
+import android.media.SoundPool;
+import java.util.Random;
 
 public class GameMaster implements GLSurfaceView.Renderer
 {
@@ -23,17 +26,32 @@ public class GameMaster implements GLSurfaceView.Renderer
     //public float amount_of_movement_y  = 0;     //自機のy軸方向の移動量
     public static final int fighter_size = 256;  //自機のサイズ
     public float fighter_speed = 1.5f;           //自機の速さ
+
+    public static final int teki1_size = 128;  //自機のサイズ
+
+
     private Sprite2D fighter = new Sprite2D();      //自機
+
+    private Sprite2D[] enemy = new Sprite2D[enemy_number];  //敵
+    private static final int enemy_number = 10;  //敵１の数
+    public int teki1_x_speed = 5;               //敵１の速さ
+    public int teki_angle[] = new int[enemy_number];   //敵の角度
+    public int teki_first_y[] = new int[enemy_number];   //敵の初期のy座標
+    private Vector2D[] teki_movement = new Vector2D[enemy_number];
     private Sprite2D title = new Sprite2D();        //タイトル画面
     private Sprite2D background = new Sprite2D();   //背景画面
     private Sprite2D gameover = new Sprite2D();     //ゲームオーバー画面
 
     private Sprite2D gameclear = new Sprite2D();    //ゲームクリア画面
 
+    private static SoundPool se_explosion;
+    private int soundID;
     //@Override
     public GameMaster(Context context)
     {
         _context = context;
+        se_explosion = new SoundPool(1, AudioManager.STREAM_MUSIC,0);
+        soundID = se_explosion.load(context, R.raw.explode,1);
     }
 
     //@Override
@@ -49,10 +67,15 @@ public class GameMaster implements GLSurfaceView.Renderer
                     background.draw(gl,getRatio());
                     //System.out.println("x座標 "+fighter._pos._x);
                     //System.out.println("y座標 "+fighter._pos._y);
+                    enemyMove();
+                    enemyDraw(gl);
                     FighterMove();
                     fighter.draw(gl);
                     break;
                 case 2:     //ゲームオーバー画面
+                    gameover.draw(gl,getRatio());
+                    enemyDraw(gl);
+                    fighter.draw(gl);
                     break;
                 case 3:     //ゲームクリア画面
                     break;
@@ -62,6 +85,55 @@ public class GameMaster implements GLSurfaceView.Renderer
     //画面比率
     private float getRatio(){
         return (float)_height/512.5f;
+    }
+
+    //敵１の移動を行う関数
+    private void enemyMove(){
+        int i;
+        for(i=0; i<enemy.length; i++){
+            enemy[i]._pos._x -= teki1_x_speed + teki_movement[i]._x;
+            //enemy[i]._pos._y += teki_angle[i] + teki_movement[i]._y;
+            enemy[i]._pos._y += 0 + teki_movement[i]._y;
+
+            teki_movement[i]._x *= 0.9;
+            teki_movement[i]._y *= 0.9;
+            //画面端に出ないようにする処理
+            /*
+            if(enemy[i]._pos._x < 0){
+                enemy[i]._pos._x = 0;
+                teki_movement[i]._x *= -1;
+            }
+            if(enemy[i]._pos._x < _width - teki1_size){
+                enemy[i]._pos._x = _width - teki1_size;
+                teki_movement[i]._x *= -1;
+            }
+
+             */
+            //自機との当たり判定
+            float x1 = fighter._pos._x - enemy[i]._pos._x;
+            float y1= fighter._pos._y - enemy[i]._pos._y;
+            float x2 = amount_of_movement._x;
+            float y2 = amount_of_movement._y;
+            if(x1*x1 + y1*y1< 50*50){
+                if(x2*x2 + y2*y2 > 1*1){
+                    teki_movement[i]._x = amount_of_movement._x;
+                    teki_movement[i]._y = -amount_of_movement._y;
+                    amount_of_movement._x *= -1;
+                    amount_of_movement._y *= -1;
+                    se_explosion.play(soundID,1.0F,1.0F,0,0,1.0F);
+                }
+                else{
+                    enemy[i]._pos._x += x1/2;
+                    enemy[i]._pos._y -= y1/2;
+                }
+            }
+        }
+    }
+    //敵１の描画を行う関数
+    private void enemyDraw(GL10 gl){
+        for(int i = 0;i< enemy.length; i++){
+            enemy[i].draw(gl);
+        }
     }
     //自機の移動を行う関数
     private void FighterMove(){
@@ -119,11 +191,26 @@ public class GameMaster implements GLSurfaceView.Renderer
         //background._texWidth = 600;  //背景画像の幅
         //background._height = 460;     //背景画像の描画高さ
         //background._width = 1200;     //背景画像の描画幅
+        for(int i=0; i<enemy.length; i++){
+            enemy[i] = new Sprite2D();
+            enemy[i].setTexture(gl,_context.getResources(),R.drawable.teki1_50);
+        }
 
     }
 
     //初期化
     public void init(){
+        int i;
+        for(i=0; i<enemy.length; i++){
+            Random r = new Random();
+            teki_first_y[i] = r.nextInt(_height);
+            enemy[i]._pos._x = (float)Math.random()*(float)Math.random()*_width*5;
+            enemy[i]._pos._y = teki_first_y[i];
+            teki_movement[i] = new Vector2D(0,0);
+            //敵の角度を決定
+            Random r2 = new Random();
+            teki_angle[i] = r2.nextInt(11)-5;
+        }
         amount_of_movement = new Vector2D(0,0);
         fighter._pos._x = 0;
         fighter._pos._y = 0;
