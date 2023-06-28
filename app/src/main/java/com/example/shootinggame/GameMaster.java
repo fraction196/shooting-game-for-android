@@ -20,33 +20,46 @@ public class GameMaster implements GLSurfaceView.Renderer
     public float touch_first_y = 0;
     public float touch_move_x = 0;
     public float touch_move_y = 0;
+
+    //無敵
     public boolean touch_switch = true;
     public boolean invincible_time = false; //無敵時間
     public int invincible_switch = 0; //無敵時間
     public int invincible_count = 0;
+
+    //自機関係
     public Vector2D amount_of_movement = new Vector2D(0,0); //自機の移動量
     //public float amount_of_movement_x  = 0;     //自機のx軸方向の移動量
     //public float amount_of_movement_y  = 0;     //自機のy軸方向の移動量
     public static final int fighter_width = 256;  //自機の幅
     public static final int fighter_height = 256;  //自機の高さ
     public float fighter_speed = 1.5f;           //自機の速さ
-
     public static final int teki1_size = 128;  //自機のサイズ
     public  int fighter_hp = 3; //自機の体力
     private Sprite2D fighter = new Sprite2D();      //自機
 
+    //敵関係
     private Sprite2D[] enemy = new Sprite2D[enemy_number];  //敵
     private static final int enemy_number = 5;  //敵１の数
     public int teki1_x_speed = 5;               //敵１の速さ
     public int teki_angle[] = new int[enemy_number];   //敵の角度
     public int teki_first_y[] = new int[enemy_number];   //敵の初期のy座標
     private Vector2D[] teki_movement = new Vector2D[enemy_number];
+
+    //弾関係
+    private static final int fighterbullet_number = 5;  //自機弾の数
+    private Sprite2D[] fighterbullet = new Sprite2D[fighterbullet_number];  //自機の弾
+
+    //画面関係
     private Sprite2D title = new Sprite2D();        //タイトル画面
     private Sprite2D background = new Sprite2D();   //背景画面
     private Sprite2D gameover = new Sprite2D();     //ゲームオーバー画面
-
     private Sprite2D gameclear = new Sprite2D();    //ゲームクリア画面
+
+
     public Sprite2D explode = new Sprite2D();   //爆発画像
+
+    //サウンド
     private static SoundPool se_explosion;
     private int soundID;
     //@Override
@@ -62,50 +75,50 @@ public class GameMaster implements GLSurfaceView.Renderer
     public void onDrawFrame(GL10 gl) {
         gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
 
-            switch(gamemode){
-                case 0:     //タイトル画面
-                    title.draw(gl,getRatio());
-                    break;
-                case 1:     //ゲーム画面
-                    background.draw(gl,getRatio());
-                    //System.out.println("x座標 "+fighter._pos._x);
-                    //System.out.println("y座標 "+fighter._pos._y);
-                    enemyMove();
-                    enemyDraw(gl);
-                    FighterMove();
-                    System.out.println("hp "+fighter_hp);
-                    System.out.println("muteki "+invincible_time);
-                    System.out.println("count "+invincible_count);
-                    if(invincible_time){
-                        if(invincible_count < 10){
-                            if(invincible_switch < 5){
-                                invincible_switch += 1;
-                            }else if (invincible_switch < 10){
-                                fighter.draw(gl);
-                                invincible_switch += 1;
-                            }else{
-                                invincible_switch = 0;
-                                invincible_count += 1;
-                            }
+        switch(gamemode){
+            case 0:     //タイトル画面
+                title.draw(gl,getRatio());
+                break;
+            case 1:     //ゲーム画面
+                background.draw(gl,getRatio());
+                //System.out.println("x座標 "+fighter._pos._x);
+                //System.out.println("y座標 "+fighter._pos._y);
+                enemyMove();
+                enemyDraw(gl);
+                FighterMove();
+                System.out.println("hp "+fighter_hp);
+                System.out.println("muteki "+invincible_time);
+                System.out.println("count "+invincible_count);
+                if(invincible_time){
+                    if(invincible_count < 10){
+                        if(invincible_switch < 5){
+                            invincible_switch += 1;
+                        }else if (invincible_switch < 10){
+                            fighter.draw(gl);
+                            invincible_switch += 1;
                         }else{
-                            invincible_time = false;
-                            invincible_count = 0;
+                            invincible_switch = 0;
+                            invincible_count += 1;
                         }
                     }else{
-                        fighter.draw(gl);
+                        invincible_time = false;
+                        invincible_count = 0;
                     }
+                }else{
+                    fighter.draw(gl);
+                }
 
-                    if(!invincible_time){
-                        FighterCollisionCheck(enemy);
-                    }
-                    if(fighter_hp == 0) gamemode = 2;
-                    break;
-                case 2:     //ゲームオーバー画面
-                    gameover.draw(gl,getRatio());
-                    break;
-                case 3:     //ゲームクリア画面
-                    break;
-            }
+                if(!invincible_time){
+                    FighterCollisionCheck(enemy);
+                }
+                if(fighter_hp == 0) gamemode = 2;
+                break;
+            case 2:     //ゲームオーバー画面
+                gameover.draw(gl,getRatio());
+                break;
+            case 3:     //ゲームクリア画面
+                break;
+        }
     }
 
     //画面比率
@@ -125,6 +138,9 @@ public class GameMaster implements GLSurfaceView.Renderer
             //teki_movement[i]._y *= 0.9;
         }
     }
+
+    //自機弾を発射するクラス
+    private void enemyBullet(){}
     //自機とオブジェクトとの当たり判定
     private void FighterCollisionCheck(Sprite2D obj[]){
         for(int i=0; i<obj.length; i++) {
@@ -202,11 +218,18 @@ public class GameMaster implements GLSurfaceView.Renderer
         //background._texWidth = 600;  //背景画像の幅
         //background._height = 460;     //背景画像の描画高さ
         //background._width = 1200;     //背景画像の描画幅
+        //敵１
         for(int i=0; i<enemy.length; i++){
             enemy[i] = new Sprite2D();
             enemy[i].setTexture(gl,_context.getResources(),R.drawable.teki1_50);
         }
         explode.setTexture(gl,_context.getResources(),R.drawable.explode);
+        //自機弾
+        for(int i=0; i<fighterbullet.length; i++){
+            fighterbullet[i] = new Sprite2D();
+            fighterbullet[i].setTexture(gl,_context.getResources(),R.drawable.teki1_50);
+        }
+
     }
 
     //初期化
