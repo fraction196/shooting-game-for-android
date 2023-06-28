@@ -39,11 +39,17 @@ public class GameMaster implements GLSurfaceView.Renderer
 
     //敵関係
     private Sprite2D[] enemy = new Sprite2D[enemy_number];  //敵
-    private static final int enemy_number = 5;  //敵１の数
+    private static final int enemy_number = 10;  //敵１の数
+    public int number_of_enemies=0;//一画面に出てくる敵の量
     public int teki1_x_speed = 5;               //敵１の速さ
     public int teki_angle[] = new int[enemy_number];   //敵の角度
     public int teki_first_y[] = new int[enemy_number];   //敵の初期のy座標
     private Vector2D[] teki_movement = new Vector2D[enemy_number];
+    private int enemy_frequency = 0;
+    private int enemy_frequency_time = 0;
+    private int enemy_stoptime = 0;
+    private int enemy_frequency_time_first = 0;
+    private boolean enemyflag = false;
 
     //弾関係
     private static final int fighterbullet_number = 15;  //自機弾の数
@@ -84,6 +90,7 @@ public class GameMaster implements GLSurfaceView.Renderer
                 background.draw(gl,getRatio());
                 getTime();
 
+                EnemyGeneration();
                 enemyMove();
                 enemyDraw(gl);
                 FighterMove();
@@ -116,7 +123,10 @@ public class GameMaster implements GLSurfaceView.Renderer
                 FighterBulletDraw(gl);
                 FighterBulletMove();
 
-                System.out.println("TIME "+ timer);
+                for(int i = 0; i < enemy.length; i++){
+                    ObjectCollisionCheck(fighterbullet, enemy[i]);
+                }
+                //System.out.println("TIME "+ timer);
                 //System.out.println("x座標 "+fighter._pos._x);
                 //System.out.println("y座標 "+fighter._pos._y);
                 //System.out.println("hp "+fighter_hp);
@@ -145,14 +155,15 @@ public class GameMaster implements GLSurfaceView.Renderer
     //自機弾を発射するクラス
     private void FighterBulletMove(){
         for (int i = 0; i < fighterbullet.length; i++) {
-            if (fighterbullet[i]._pos._x < _width) {
-                fighterbullet[i]._pos._x += 9;
+            if(fighterbullet[i].hp == 1) {
+                if (fighterbullet[i]._pos._x < _width) {
+                    fighterbullet[i]._pos._x += 9;
+                } else {
+                    fighterbullet[i].hp = 0;
+                    fighterbullet[i].hp_flag = false;
+                }
+                //System.out.println("HP"+i+" "+fighterbullet[i].hp);
             }
-            else{
-                fighterbullet[i].hp = 0;
-                fighterbullet[i].hp_flag = false;
-            }
-            System.out.println("HP"+i+" "+fighterbullet[i].hp);
         }
     }
     //自機弾の描画
@@ -178,23 +189,30 @@ public class GameMaster implements GLSurfaceView.Renderer
     //自機とオブジェクトとの当たり判定
     private void FighterCollisionCheck(Sprite2D obj[]){
         for(int i=0; i<obj.length; i++) {
-
-
             float of_x = obj[i]._pos._x - fighter._pos._x;
             float of_y = obj[i]._pos._y - fighter._pos._y;
             if(!invincible_time) {
-                /*if (((of_x <= fighter_width)&&(of_x >= -obj[i]._width))||((of_y <= obj[i]._height)&&(of_y >= -fighter_height))){
-                    se_explosion.play(soundID, 1.0F, 1.0F, 0, 0, 1.0F);
-                    fighter_hp -= 1;
-                    invincible_time = true;
-                }
-                */
                 if ((of_x <= fighter_width)&&(of_x >= -obj[i]._width)&&(of_y <= fighter_height)&&(of_y >= -obj[i]._height)){
                     se_explosion.play(soundID, 1.0F, 1.0F, 0, 0, 1.0F);
                     fighter_hp -= 1;
                     invincible_time = true;
                 }
-                //System.out.println("obj " + 0 + " " + obj[0]._pos._x);
+            }
+        }
+    }
+    //オブジェ１とオブジェ２（配列同士の当たり判定）
+    private void ObjectCollisionCheck(Sprite2D obj1[],Sprite2D obj2){
+        for (int i = 0; i < obj1.length; i++) {
+            float o12_x = obj1[i]._pos._x - obj2._pos._x;
+            float o12_y = obj1[i]._pos._y - obj2._pos._y;
+            if((obj1[i].hp >= 1)&&(obj2.hp >= 1)){
+                if ((o12_x <= obj2._width) && (o12_x >= -obj1[i]._width) && (o12_y <= obj2._height) && (o12_y >= -obj1[i]._height)) {
+                    se_explosion.play(soundID, 1.0F, 1.0F, 0, 0, 1.0F);
+                    obj1[i].hp -= 1;
+                    if (obj1[i].hp == 0) obj1[i].hp_flag = false;
+                    obj2.hp -= 1;
+                    if (obj2.hp == 0) obj2.hp_flag = false;
+                }
             }
         }
     }
@@ -226,20 +244,57 @@ public class GameMaster implements GLSurfaceView.Renderer
     //敵１の描画を行う関数
     private void enemyDraw(GL10 gl){
         for(int i = 0;i< enemy.length; i++){
-            enemy[i].draw(gl);
+            if(enemy[i].hp == 1)enemy[i].draw(gl);
         }
     }
     //敵１の移動を行う関数
     private void enemyMove(){
         for(int i=0; i<enemy.length; i++){
-            enemy[i]._pos._x -= teki1_x_speed;
-            //enemy[i]._pos._y += teki_angle[i] + teki_movement[i]._y;
-            enemy[i]._pos._y += 0 ;
-            //teki_movement[i]._x *= 0.9;
-            //teki_movement[i]._y *= 0.9;
+            if(enemy[i].hp == 1) {
+                if (enemy[i]._pos._x + enemy[i]._width > 0) {
+                    enemy[i]._pos._x -= teki1_x_speed;
+                    //enemy[i]._pos._y += teki_angle[i] + teki_movement[i]._y;
+                    enemy[i]._pos._y += 0;
+                } else {
+                    enemy[i].hp = 0;
+                    enemy[i].hp_flag = false;
+                }
+            }
         }
     }
+    //敵1の出現
+    public void EnemyGeneration() {
+        number_of_enemies = 0;
+        for(int i=0; i<enemy.length; i++){
+            if(enemy[i].hp == 1)number_of_enemies += 1;
+        }
+        System.out.println("num "+number_of_enemies);
+        if(number_of_enemies < 6){
+            for(int i=0; i<enemy.length; i++) {
+                Random r1 = new Random();
+                teki_first_y[i] = r1.nextInt(_height);
+                enemy_frequency_time = timer - (enemy_frequency_time_first+enemy_stoptime);
 
+                if ((enemy_frequency_time == enemy_frequency) && (enemy[i].hp == 0))enemy[i].hp = -1;
+                if ((enemy[i].hp == -1)&&(!enemy[i].hp_flag)){
+                    teki_first_y[i] = r1.nextInt(_height);
+                    enemy[i]._pos._x = 50 + _width;
+                    enemy[i]._pos._y = teki_first_y[i];
+                    enemy_frequency_time_first = timer;
+                    enemy[i].hp = 1;
+                    enemy[i].hp_flag = true;
+                    enemy_stoptime = 0;
+                    Random r2 = new Random();
+                    enemy_frequency = r2.nextInt(81) + 55;
+                    break;
+                }
+
+            }
+        }else{
+            enemy_stoptime += 1;
+        }
+
+    }
 
     //サーフェイス
     //サーフェイスのサイズ変更した時
@@ -288,18 +343,30 @@ public class GameMaster implements GLSurfaceView.Renderer
         invincible_switch = 0;
         fighter_hp = 3;
         explode._visible = false;
+        timer = -1;
+    }
+    public void FighterBulletInit(){
+        for(int i=0; i<fighterbullet.length; i++){
+            fighterbullet[i].hp = 0;
+            fighterbullet[i].hp_flag = false;
+            fighterbullet[i]._pos._x = 100+_width;
+            fighterbullet[i]._pos._y = 100+_height;
+        }
     }
     public void EnemyInit(){
         for(int i=0; i<enemy.length; i++){
-            Random r = new Random();
-            teki_first_y[i] = r.nextInt(_height);
-            enemy[i]._pos._x = ((float)Math.random()*(float)Math.random()*_width*5)+_width;
-            enemy[i]._pos._y = teki_first_y[i];
-            teki_movement[i] = new Vector2D(0,0);
-            //敵の角度を決定
-            Random r2 = new Random();
-            teki_angle[i] = r2.nextInt(11)-5;
+            enemy[i].hp = 0;
+            enemy[i].hp_flag = false;
+            enemy[i]._pos._x = 100+_width;
+            enemy[i]._pos._y = 100+_height;
         }
+        number_of_enemies=0;//一画面に出てくる敵の量
+        teki1_x_speed = 5;               //敵１の速さ
+        enemy_frequency = 0;
+        enemy_frequency_time = 0;
+        enemy_stoptime = 0;
+        enemy_frequency_time_first = 0;
+        enemyflag = false;
     }
     //移動量の初期化
     public void reset(){
@@ -310,6 +377,7 @@ public class GameMaster implements GLSurfaceView.Renderer
         touch_move_x = 0;
         touch_move_y = 0;
         touch_switch = true;
+
     }
 
 
@@ -371,6 +439,7 @@ public class GameMaster implements GLSurfaceView.Renderer
             case 0:
                 init();
                 reset();
+                FighterBulletInit();
                 EnemyInit();
                 gamemode = 1;
                 break;
