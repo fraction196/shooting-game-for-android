@@ -55,6 +55,8 @@ public class GameMaster implements GLSurfaceView.Renderer
     private static final int fighterbullet_number = 15;  //自機弾の数
     private Sprite2D[] fighterbullet = new Sprite2D[fighterbullet_number];  //自機の弾
     public int fighterbullet_on = 1;
+    private static final int enemybullet_number = 30;  //敵弾数１
+    private Sprite2D[][] enemybullet = new Sprite2D[enemy_number][enemybullet_number];  //敵１の弾
 
     //画面関係
     private Sprite2D title = new Sprite2D();        //タイトル画面
@@ -116,6 +118,7 @@ public class GameMaster implements GLSurfaceView.Renderer
 
                 if(!invincible_time){
                     FighterCollisionCheck(enemy);
+                    //FighterCollisionCheck2(enemy,enemybullet);
                 }
                 if(fighter_hp == 0) gamemode = 2;
 
@@ -123,6 +126,9 @@ public class GameMaster implements GLSurfaceView.Renderer
                 FighterBulletDraw(gl);
                 FighterBulletMove();
 
+                EnemyBulletGeneration();
+                EnemyBulletDraw(gl);
+                EnemyBulletMove();
                 for(int i = 0; i < enemy.length; i++){
                     ObjectCollisionCheck(fighterbullet, enemy[i]);
                 }
@@ -200,6 +206,21 @@ public class GameMaster implements GLSurfaceView.Renderer
             }
         }
     }
+    private void FighterCollisionCheck2(Sprite2D obj1[],Sprite2D obj2[][]){
+        for(int j=0; j<obj1.length; j++) {
+            for (int i = 0; i < obj2[j].length; i++) {
+                float of_x = obj2[j][i]._pos._x - fighter._pos._x;
+                float of_y = obj2[j][i]._pos._y - fighter._pos._y;
+                if (!invincible_time) {
+                    if ((of_x <= fighter_width) && (of_x >= -obj2[j][i]._width) && (of_y <= fighter_height) && (of_y >= -obj2[j][i]._height)) {
+                        se_explosion.play(soundID, 1.0F, 1.0F, 0, 0, 1.0F);
+                        fighter_hp -= 1;
+                        invincible_time = true;
+                    }
+                }
+            }
+        }
+    }
     //オブジェ１とオブジェ２（配列同士の当たり判定）
     private void ObjectCollisionCheck(Sprite2D obj1[],Sprite2D obj2){
         for (int i = 0; i < obj1.length; i++) {
@@ -272,12 +293,11 @@ public class GameMaster implements GLSurfaceView.Renderer
         if(number_of_enemies < 6){
             for(int i=0; i<enemy.length; i++) {
                 Random r1 = new Random();
-                teki_first_y[i] = r1.nextInt(_height);
                 enemy_frequency_time = timer - (enemy_frequency_time_first+enemy_stoptime);
 
                 if ((enemy_frequency_time == enemy_frequency) && (enemy[i].hp == 0))enemy[i].hp = -1;
                 if ((enemy[i].hp == -1)&&(!enemy[i].hp_flag)){
-                    teki_first_y[i] = r1.nextInt(_height);
+                    teki_first_y[i] = r1.nextInt(_height-(int)enemy[i]._height);
                     enemy[i]._pos._x = 50 + _width;
                     enemy[i]._pos._y = teki_first_y[i];
                     enemy_frequency_time_first = timer;
@@ -294,6 +314,51 @@ public class GameMaster implements GLSurfaceView.Renderer
             enemy_stoptime += 1;
         }
 
+    }
+    //敵弾を発射するクラス
+    private void EnemyBulletMove(){
+        for (int j = 0; j < enemy.length; j++) {
+            for (int i = 0; i < enemybullet.length; i++) {
+                if (enemybullet[j][i].hp == 1) {
+                    if (enemybullet[j][i]._pos._x > 0) {
+                        enemybullet[j][i]._pos._x -= 9;
+                    } else {
+                        enemybullet[j][i].hp = 0;
+                        enemybullet[j][i].hp_flag = false;
+                    }
+                    //System.out.println("HP"+i+" "+fighterbullet[i].hp);
+                }
+            }
+        }
+    }
+    //自機弾の描画
+    private void EnemyBulletDraw(GL10 gl){
+        for (int j = 0; j < enemy.length; j++) {
+            for (int i = 0; i < enemybullet.length; i++) {
+                if (enemybullet[j][i].hp == 1) enemybullet[j][i].draw(gl);
+            }
+        }
+    }
+    //自機弾の生成
+    public void EnemyBulletGeneration() {
+        for (int j = 0; j < enemy.length; j++) {
+            for (int i = 0; i < enemybullet.length; i++) {
+                if (enemy[j].hp == 1) {
+                    if (((timer % 100) == 0) && (enemybullet[j][i].hp == 0))
+                        enemybullet[j][i].hp = -1;
+                    if ((enemybullet[j][i].hp == -1) && (!enemybullet[j][i].hp_flag)) {
+                        enemybullet[j][i]._pos._x = enemy[j]._pos._x;
+                        enemybullet[j][i]._pos._y = enemy[j]._pos._y + (enemy[j]._height / 2);
+                        enemybullet[j][i].hp_flag = true;
+                        enemybullet[j][i].hp = 1;
+                        break;
+                    }
+                }else if(enemy[j].hp == 0){
+                    enemybullet[j][i].hp = 0;
+                    enemybullet[j][i].hp_flag = false;
+                }
+            }
+        }
     }
 
     //サーフェイス
@@ -330,6 +395,13 @@ public class GameMaster implements GLSurfaceView.Renderer
             fighterbullet[i].setTexture(gl,_context.getResources(),R.drawable.fighterbullet1);
         }
 
+        //敵弾
+        for(int j=0; j<enemy.length; j++) {
+            for (int i = 0; i < enemybullet.length; i++) {
+                enemybullet[j][i] = new Sprite2D();
+                enemybullet[j][i].setTexture(gl, _context.getResources(), R.drawable.enemybullet1);
+            }
+        }
     }
 
 
@@ -351,6 +423,16 @@ public class GameMaster implements GLSurfaceView.Renderer
             fighterbullet[i].hp_flag = false;
             fighterbullet[i]._pos._x = 100+_width;
             fighterbullet[i]._pos._y = 100+_height;
+        }
+    }
+    public void EnemyBulletInit(){
+        for(int j=0; j<enemy.length; j++) {
+            for (int i = 0; i < enemybullet.length; i++) {
+                enemybullet[j][i].hp = 0;
+                enemybullet[j][i].hp_flag = false;
+                enemybullet[j][i]._pos._x = 100 + _width;
+                enemybullet[j][i]._pos._y = 100 + _height;
+            }
         }
     }
     public void EnemyInit(){
@@ -440,6 +522,7 @@ public class GameMaster implements GLSurfaceView.Renderer
                 init();
                 reset();
                 FighterBulletInit();
+                EnemyBulletInit();
                 EnemyInit();
                 gamemode = 1;
                 break;
