@@ -118,7 +118,7 @@ public class GameMaster implements GLSurfaceView.Renderer
 
                 if(!invincible_time){
                     FighterCollisionCheck(enemy);
-                    //FighterCollisionCheck2(enemy,enemybullet);
+                    FighterCollisionCheck2(enemy,enemybullet);
                 }
                 if(fighter_hp == 0) gamemode = 2;
 
@@ -318,7 +318,7 @@ public class GameMaster implements GLSurfaceView.Renderer
     //敵弾を発射するクラス
     private void EnemyBulletMove(){
         for (int j = 0; j < enemy.length; j++) {
-            for (int i = 0; i < enemybullet.length; i++) {
+            for (int i = 0; i < enemybullet[j].length; i++) {
                 if (enemybullet[j][i].hp == 1) {
                     if (enemybullet[j][i]._pos._x > 0) {
                         enemybullet[j][i]._pos._x -= 9;
@@ -334,7 +334,7 @@ public class GameMaster implements GLSurfaceView.Renderer
     //自機弾の描画
     private void EnemyBulletDraw(GL10 gl){
         for (int j = 0; j < enemy.length; j++) {
-            for (int i = 0; i < enemybullet.length; i++) {
+            for (int i = 0; i < enemybullet[j].length; i++) {
                 if (enemybullet[j][i].hp == 1) enemybullet[j][i].draw(gl);
             }
         }
@@ -342,7 +342,7 @@ public class GameMaster implements GLSurfaceView.Renderer
     //自機弾の生成
     public void EnemyBulletGeneration() {
         for (int j = 0; j < enemy.length; j++) {
-            for (int i = 0; i < enemybullet.length; i++) {
+            for (int i = 0; i < enemybullet[j].length; i++) {
                 if (enemy[j].hp == 1) {
                     if (((timer % 100) == 0) && (enemybullet[j][i].hp == 0))
                         enemybullet[j][i].hp = -1;
@@ -353,9 +353,6 @@ public class GameMaster implements GLSurfaceView.Renderer
                         enemybullet[j][i].hp = 1;
                         break;
                     }
-                }else if(enemy[j].hp == 0){
-                    enemybullet[j][i].hp = 0;
-                    enemybullet[j][i].hp_flag = false;
                 }
             }
         }
@@ -397,7 +394,7 @@ public class GameMaster implements GLSurfaceView.Renderer
 
         //敵弾
         for(int j=0; j<enemy.length; j++) {
-            for (int i = 0; i < enemybullet.length; i++) {
+            for (int i = 0; i < enemybullet[j].length; i++) {
                 enemybullet[j][i] = new Sprite2D();
                 enemybullet[j][i].setTexture(gl, _context.getResources(), R.drawable.enemybullet1);
             }
@@ -427,7 +424,7 @@ public class GameMaster implements GLSurfaceView.Renderer
     }
     public void EnemyBulletInit(){
         for(int j=0; j<enemy.length; j++) {
-            for (int i = 0; i < enemybullet.length; i++) {
+            for (int i = 0; i < enemybullet[j].length; i++) {
                 enemybullet[j][i].hp = 0;
                 enemybullet[j][i].hp_flag = false;
                 enemybullet[j][i]._pos._x = 100 + _width;
