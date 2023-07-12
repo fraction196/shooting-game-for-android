@@ -32,6 +32,10 @@ import android.graphics.Insets;
 import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
 import android.widget.LinearLayout;
+import android.view.WindowInsetsController;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 
 public class MainActivity extends Activity
 {
@@ -46,15 +50,31 @@ public class MainActivity extends Activity
         _renderer = new GameMaster(this);
         _glSurfaceView.setRenderer(_renderer);
         setContentView(_glSurfaceView);
+        /*
         Display display = getWindowManager().getDefaultDisplay();
         _renderer._width = display.getWidth();
         _renderer._height = display.getHeight();
-        /*
+
+         */
+
+
         WindowMetrics windowMetrics = getWindowManager().getCurrentWindowMetrics();
         Insets insets = windowMetrics.getWindowInsets().getInsetsIgnoringVisibility(WindowInsets.Type.systemBars());
         _renderer._width = windowMetrics.getBounds().width();
         _renderer._height = windowMetrics.getBounds().height();
-        */
+        int StatusBar = insets.top;
+        int NavigationBar = insets.bottom;
+
+        WindowInsetsController windowInsetsController = getWindow().getInsetsController();
+        if (windowInsetsController != null) {
+            // systemBars : ステータスバーとナビゲーションバーの両方を非表示にする
+            windowInsetsController.hide(WindowInsets.Type.systemBars());
+            //windowInsetsController.hide(WindowInsets.Type.statusBars()); // ステータスバーのみ非表示にする場合
+            //windowInsetsController.hide(WindowInsets.Type.navigationBars()); // ナビゲーションバーのみ非表示にする場合
+            windowInsetsController.setSystemBarsBehavior(WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE);
+        }
+
+
     }
 
     @Override
@@ -64,7 +84,25 @@ public class MainActivity extends Activity
         _glSurfaceView.onResume();
 
     }
+    /*
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) hideSystemUI();
+    }
+    private void hideSystemUI() {
+        View decorView = getWindow().getDecorView();
+        decorView.setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN
+        );
+    }
 
+     */
     @Override
     protected void onPause()
     {

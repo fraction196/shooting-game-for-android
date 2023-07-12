@@ -24,6 +24,7 @@
             </intent-filter>
         </activity>
         <activity
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
             android:name=".GameMaster"
             android:screenOrientation="landscape">
 

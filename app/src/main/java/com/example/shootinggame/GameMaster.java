@@ -149,7 +149,7 @@ public class GameMaster implements GLSurfaceView.Renderer
     }
     //画面比率
     private float getRatio(){
-        return (float)_height/512.5f;
+        return (float)_height/485.0f;
     }
     //時間を得る
     private void getTime(){
