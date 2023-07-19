@@ -60,10 +60,10 @@ public class MainActivity extends Activity
 
         WindowMetrics windowMetrics = getWindowManager().getCurrentWindowMetrics();
         Insets insets = windowMetrics.getWindowInsets().getInsetsIgnoringVisibility(WindowInsets.Type.systemBars());
-        _renderer._width = windowMetrics.getBounds().width();
+        int statusBarHeight = getStatusBarHeight();
+
+        _renderer._width = windowMetrics.getBounds().width() - statusBarHeight;
         _renderer._height = windowMetrics.getBounds().height();
-        int StatusBar = insets.top;
-        int NavigationBar = insets.bottom;
 
         WindowInsetsController windowInsetsController = getWindow().getInsetsController();
         if (windowInsetsController != null) {
@@ -75,6 +75,15 @@ public class MainActivity extends Activity
         }
 
 
+    }
+
+    private int getStatusBarHeight() {
+        int statusBarHeight = 0;
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            statusBarHeight = getResources().getDimensionPixelSize(resourceId);
+        }
+        return statusBarHeight;
     }
 
     @Override

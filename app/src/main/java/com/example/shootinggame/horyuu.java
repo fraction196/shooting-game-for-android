@@ -32,3 +32,35 @@ if((fighterbullet[i].hp == -1)&&(number_of_enemies<4)){
     }
 
 */
+//敵1の出現
+    /*
+    public void EnemyGeneration(Enemy1 enemy,int _width,int _height,int timer) {
+        number_of_enemies = 0;
+        if(enemy.hp == 1)number_of_enemies += 1;
+        System.out.println("eft"+" "+enemy_frequency_time);
+        System.out.println("ef"+" "+enemy_frequency);
+
+        if(number_of_enemies < 6){
+
+            Random r1 = new Random();
+            enemy_frequency_time = timer - (enemy_frequency_time_first+enemy_stoptime);
+
+            if ((enemy_frequency_time == enemy_frequency) && (enemy.hp == 0))enemy.hp = -1;
+            if ((enemy.hp == -1)&&(!enemy.hp_flag)){
+                teki_y = r1.nextInt(_height-(int)enemy._height);
+                enemy._pos._x = 50 + _width;
+                enemy._pos._y = teki_y;
+                enemy_frequency_time_first = timer;
+                enemy.hp = 1;
+                enemy.hp_flag = true;
+                enemy_stoptime = 0;
+                Random r2 = new Random();
+                enemy_frequency = r2.nextInt(81) + 55;
+            }
+        }else{
+            enemy_stoptime += 1;
+        }
+
+    }
+
+     */
