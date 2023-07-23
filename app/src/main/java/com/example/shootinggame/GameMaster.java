@@ -11,8 +11,11 @@ import java.util.Random;
 public class GameMaster implements GLSurfaceView.Renderer
 {
 
+
+
     private Context _context;
     public int _width;
+    public int _width2;
     public int _height;
     //public boolean _touch;
     public int gamemode = 0; //0でタイトル画面、1でゲーム画面、2でゲームオーバー画面、3でゲームクリア画面
@@ -38,6 +41,7 @@ public class GameMaster implements GLSurfaceView.Renderer
     //画面関係
     private Sprite2D title = new Sprite2D();        //タイトル画面
     private Sprite2D background = new Sprite2D();   //背景画面
+    private Sprite2D background2 = new Sprite2D();   //背景画面
     private Sprite2D gameover = new Sprite2D();     //ゲームオーバー画面
     private Sprite2D gameclear = new Sprite2D();    //ゲームクリア画面
 
@@ -69,6 +73,8 @@ public class GameMaster implements GLSurfaceView.Renderer
                 break;
             case 1:     //ゲーム画面
                 background.draw(gl,getRatio());
+                background2.draw(gl,getRatio());
+                BackgroundMove(gl,getRatio());
                 getTime();
 
                 //敵１の描画
@@ -117,6 +123,19 @@ public class GameMaster implements GLSurfaceView.Renderer
         timer += 1;
     }
 
+    private void BackgroundMove(GL10 gl,float getRatio){
+
+        if((int)-background._pos._x == (_width-1)*2){
+            background._pos._x = (_width-1)*2;
+        }
+        if((int)-background2._pos._x == (_width-1)*2){
+            background2._pos._x = (_width-1)*2;
+        }
+        background._pos._x -= 2;
+        background2._pos._x -= 2;
+        System.out.println("move " + (int)-background2._pos._x);
+        System.out.println("wid " + _width*2);
+    }
     //サーフェイス
     //サーフェイスのサイズ変更した時
     public void onSurfaceChanged(GL10 gl, int width, int height) {}
@@ -132,7 +151,12 @@ public class GameMaster implements GLSurfaceView.Renderer
         //使用する画像
         fighter.setTexture(gl,_context.getResources(),R.drawable.fighter2);  //自機
         title.setTexture(gl,_context.getResources(),R.drawable.title4);  //タイトル画面
-        background.setTexture(gl,_context.getResources(),R.drawable.haikei1);  //背景
+        background.setTexture(gl,_context.getResources(),R.drawable.haikei1_50_2);  //背景
+        background._texWidth = 2048;
+        background._width = 2048;
+        background2.setTexture(gl,_context.getResources(),R.drawable.haikei1_50_2);  //背景
+        background2._texWidth = 2048;
+        background2._width = 2050;
         gameover.setTexture(gl,_context.getResources(),R.drawable.gameover1);  //ゲームオーバー画面
         gameclear.setTexture(gl,_context.getResources(),R.drawable.gameclear1);  //ゲームクリア画面
 
@@ -162,6 +186,8 @@ public class GameMaster implements GLSurfaceView.Renderer
     public void init(){
         explode._visible = false;
         timer = -1;
+        background._pos._x = 0;
+        background2._pos._x = (_width-1)*2;
     }
 
     //移動量の初期化
