@@ -71,7 +71,7 @@ public class Fighter extends Sprite2D{
         fighter.amount_of_movement = new Vector2D(0,0);
         fighter._pos._x = 0;
         fighter._pos._y = 0;
-        fighter.hp = 3;
+        fighter.hp = 4;
 
 
         fighter.invincible_time = false;

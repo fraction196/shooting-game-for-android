@@ -28,6 +28,8 @@ public class GameMaster implements GLSurfaceView.Renderer
     public int bt1_height = 172;
     public int bt2_width = 266;
     public int bt2_height =122;
+    public int bt3_width = 620;
+    public int bt3_height = 172;
 
     private MainActivity main = new MainActivity();
 
@@ -164,7 +166,7 @@ public class GameMaster implements GLSurfaceView.Renderer
     }
 
     private void GameClear(int real_time){
-        if(real_time == 15)gamemode = 3;
+        if(real_time == 60)gamemode = 3;
     }
     private void TitleButton(GL10 gl){
         if(gamemode == 0){
@@ -185,7 +187,12 @@ public class GameMaster implements GLSurfaceView.Renderer
             if(!title_bt_start.flag || title_bt_start.flag3){
                 title_bt_start._pos._x = 690;
                 title_bt_start._pos._y = 70;
-                if(title_bt_start.flag3)gamemode = 4;
+                if(title_bt_start.flag3){
+                    FlagReset();
+                    title_bt_start._width += 40;
+                    title_bt_start._height += 40;
+                    gamemode = 4;
+                }
             }
             if(title_bt_start.flag && !title_bt_start.flag2){
                 title_bt_start._width -= 40;
@@ -199,43 +206,56 @@ public class GameMaster implements GLSurfaceView.Renderer
         }
     }
     private void Game_O_C_Button(GL10 gl){
-        if(gamemode == 0){
-            if(!title_bt_exit.flag || title_bt_exit.flag3){
-                title_bt_exit._pos._x = 100;
-                title_bt_exit._pos._y = 70;
-                if(title_bt_exit.flag3)System.exit(0);
+        if(!gameover_bt_restart.flag || gameover_bt_restart.flag3){
+            gameover_bt_restart._pos._x = 820;
+            gameover_bt_restart._pos._y = 120;
+            if (gameover_bt_restart.flag3){
+                FlagReset();
+                gameover_bt_restart._width += 40;
+                gameover_bt_restart._height += 40;
+                gamemode = 1;
             }
-
-            if(title_bt_exit.flag && !title_bt_exit.flag2){
-                title_bt_exit._width -= 40;
-                title_bt_exit._height -= 40;
-                title_bt_exit._pos._x += 20;
-                title_bt_exit._pos._y += 10;
-                title_bt_exit.flag2 = true;
-            }
-
-            if(!title_bt_start.flag || title_bt_start.flag3){
-                title_bt_start._pos._x = 690;
-                title_bt_start._pos._y = 70;
-                if(title_bt_start.flag3)gamemode = 4;
-            }
-            if(title_bt_start.flag && !title_bt_start.flag2){
-                title_bt_start._width -= 40;
-                title_bt_start._height -= 40;
-                title_bt_start._pos._x += 20;
-                title_bt_start._pos._y += 10;
-                title_bt_start.flag2 = true;
-            }
-            title_bt_exit.draw(gl);
-            title_bt_start.draw(gl);
         }
+
+        if(gameover_bt_restart.flag && !gameover_bt_restart.flag2){
+            gameover_bt_restart._width -= 40;
+            gameover_bt_restart._height -= 40;
+            gameover_bt_restart._pos._x += 20;
+            gameover_bt_restart._pos._y += 10;
+            gameover_bt_restart.flag2 = true;
+        }
+        if(!gameover_bt_title.flag || gameover_bt_title.flag3){
+            gameover_bt_title._pos._x = 1520;
+            gameover_bt_title._pos._y = 120;
+            if (gameover_bt_title.flag3){
+                FlagReset();
+                gameover_bt_title._width += 40;
+                gameover_bt_title._height += 40;
+                gamemode = 0;
+            }
+        }
+
+        if(gameover_bt_title.flag && !gameover_bt_title.flag2){
+            gameover_bt_title._width -= 40;
+            gameover_bt_title._height -= 40;
+            gameover_bt_title._pos._x += 20;
+            gameover_bt_title._pos._y += 10;
+            gameover_bt_title.flag2 = true;
+        }
+        gameover_bt_restart.draw(gl);
+        gameover_bt_title.draw(gl);
+
     }
     private void SystemButton(GL10 gl){
         if(!system_bt_next.flag4) {
             if (!system_bt_next.flag || system_bt_next.flag3) {
                 system_bt_next._pos._x = 1740;
                 system_bt_next._pos._y = 150;
-                if (system_bt_next.flag3) system_bt_next.flag4 = true;
+                if (system_bt_next.flag3){
+                    system_bt_next._width += 20;
+                    system_bt_next._height += 20;
+                    system_bt_next.flag4 = true;
+                }
             }
 
             if (system_bt_next.flag && !system_bt_next.flag2) {
@@ -252,7 +272,12 @@ public class GameMaster implements GLSurfaceView.Renderer
             if (!system_bt_exit.flag || system_bt_exit.flag3) {
                 system_bt_exit._pos._x = 1740;
                 system_bt_exit._pos._y = 150;
-                if (system_bt_exit.flag3) gamemode = 1;
+                if (system_bt_exit.flag3) {
+                    FlagReset();
+                    system_bt_exit._width += 20;
+                    system_bt_exit._height += 20;
+                    gamemode = 1;
+                }
             }
 
             if (system_bt_exit.flag && !system_bt_exit.flag2) {
@@ -307,7 +332,9 @@ public class GameMaster implements GLSurfaceView.Renderer
         gameover.setTexture(gl,_context.getResources(),R.drawable.gameover_kari1);  //ゲームオーバー画面
         gameover._texWidth = 1024;
         gameover._width = 1024 ;
-        gameclear.setTexture(gl,_context.getResources(),R.drawable.gameclear1);  //ゲームクリア画面
+        gameclear.setTexture(gl,_context.getResources(),R.drawable.gameclear_kari1);  //ゲームクリア画面
+        gameclear._texWidth = 1024;
+        gameclear._width = 1024 ;
 
         system1.setTexture(gl,_context.getResources(),R.drawable.sys1);   //システム１
         system1._texWidth = 1024;
@@ -325,6 +352,9 @@ public class GameMaster implements GLSurfaceView.Renderer
 
         system_bt_next.setTexture(gl,_context.getResources(),R.drawable.bt3);  //
         system_bt_exit.setTexture(gl,_context.getResources(),R.drawable.bt4);  //
+
+        gameover_bt_restart.setTexture(gl,_context.getResources(),R.drawable.bt5);  //
+        gameover_bt_title.setTexture(gl,_context.getResources(),R.drawable.bt6);  //
 
         for(int i=0; i<enemy1.length; i++){
             enemy1[i] = new Enemy1();
@@ -379,6 +409,30 @@ public class GameMaster implements GLSurfaceView.Renderer
 
     }
 
+    //フラグリセッt
+    public void FlagReset(){
+        title_bt_start.flag = false;
+        title_bt_start.flag2 = false;
+        title_bt_start.flag3 = false;
+        title_bt_exit.flag = false;
+        title_bt_exit.flag2 = false;
+        title_bt_exit.flag3 = false;
+        system_bt_next.flag = false;
+        system_bt_next.flag2 = false;
+        system_bt_next.flag3 = false;
+        system_bt_next.flag4 = false;
+        system_bt_exit.flag  = false;
+        system_bt_exit.flag2  = false;
+        system_bt_exit.flag3  = false;
+        system_bt_exit.flag4  = false;
+        gameover_bt_restart.flag = false;
+        gameover_bt_restart.flag2 = false;
+        gameover_bt_restart.flag3 = false;
+        gameover_bt_title.flag = false;
+        gameover_bt_title.flag2 = false;
+        gameover_bt_title.flag3 = false;
+
+    }
     //タッチ関係
     //タップしたとき
     public void actionDown(float x,float y) {
@@ -416,9 +470,17 @@ public class GameMaster implements GLSurfaceView.Renderer
             case 1:
                 break;
             case 2:
-                gamemode = 0;
-                break;
             case 3:
+                if(x > gameover_bt_restart._pos._x && x < gameover_bt_restart._pos._x+bt3_width){
+                    if(y1 > gameover_bt_restart._pos._y && y1 < gameover_bt_restart._pos._y+bt3_height){
+                        gameover_bt_restart.flag = true;
+                    }
+                }
+                if(x > gameover_bt_title._pos._x && x < gameover_bt_title._pos._x+bt3_width){
+                    if(y1 > gameover_bt_title._pos._y && y1 < gameover_bt_title._pos._y+bt3_height){
+                        gameover_bt_title.flag = true;
+                    }
+                }
                 break;
             case 4:
                 if(x > system_bt_next._pos._x && x < system_bt_next._pos._x+bt2_width){
@@ -426,9 +488,11 @@ public class GameMaster implements GLSurfaceView.Renderer
                         system_bt_next.flag = true;
                     }
                 }
-                if(x > system_bt_exit._pos._x && x < system_bt_exit._pos._x+bt2_width){
-                    if(y1 > system_bt_exit._pos._y && y1 < system_bt_exit._pos._y+bt2_height){
-                        system_bt_exit.flag = true;
+                if(system_bt_next.flag4){
+                    if(x > system_bt_exit._pos._x && x < system_bt_exit._pos._x+bt2_width){
+                        if(y1 > system_bt_exit._pos._y && y1 < system_bt_exit._pos._y+bt2_height){
+                            system_bt_exit.flag = true;
+                        }
                     }
                 }
                 break;
@@ -469,14 +533,6 @@ public class GameMaster implements GLSurfaceView.Renderer
         switch(gamemode){
             case 0:
                 //初期化
-                /*
-                init();
-                reset();
-                fb_1[0].FighterBulletInit(fb_1,_width,_height);
-                eb_1[0][0].EnemyBulletInit(enemy1,eb_1,_width,_height);
-                fighter.FighterInit(fighter);
-                enemy1[0].EnemyInit(enemy1,_width,_height);
-                 */
                 InitAll();
                 if(title_bt_exit.flag)title_bt_exit.flag3 = true;
                 if(title_bt_start.flag)title_bt_start.flag3 = true;
@@ -485,9 +541,10 @@ public class GameMaster implements GLSurfaceView.Renderer
                 reset();
                 break;
             case 2:
-                InitAll();
-                break;
             case 3:
+                InitAll();
+                if(gameover_bt_restart.flag)gameover_bt_restart.flag3 = true;
+                if(gameover_bt_title.flag)gameover_bt_title.flag3 = true;
                 break;
             case 4:
                 if(system_bt_next.flag)system_bt_next.flag3 = true;
