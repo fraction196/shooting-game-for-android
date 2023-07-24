@@ -77,7 +77,7 @@ public class MainActivity extends Activity
 
     }
 
-    private int getStatusBarHeight() {
+    public int getStatusBarHeight() {
         int statusBarHeight = 0;
         int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
         if (resourceId > 0) {

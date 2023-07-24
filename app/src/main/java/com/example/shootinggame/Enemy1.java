@@ -59,14 +59,14 @@ public class Enemy1 extends Sprite2D {
                     enemy[i].hp = -1;
                 if ((enemy[i].hp == -1) && (!enemy[i].hp_flag)) {
                     teki_first_y[i] = r1.nextInt(_height - (int) enemy[i]._height);
-                    enemy[i]._pos._x = 50 + _width;
+                    enemy[i]._pos._x = 400 + _width;
                     enemy[i]._pos._y = teki_first_y[i];
                     enemy_frequency_time_first = timer;
                     enemy[i].hp = 1;
                     enemy[i].hp_flag = true;
                     enemy_stoptime = 0;
                     Random r2 = new Random();
-                    enemy_frequency = r2.nextInt(81) + 55;
+                    enemy_frequency = r2.nextInt(81) + 85;
                     break;
                 }
 

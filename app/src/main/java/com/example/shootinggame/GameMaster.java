@@ -24,6 +24,12 @@ public class GameMaster implements GLSurfaceView.Renderer
     public float touch_move_x = 0;
     public float touch_move_y = 0;
     public int timer = -1;
+    public int real_time = -1;
+    public int bt1_height = 172;
+    public int bt2_width = 266;
+    public int bt2_height =122;
+
+    private MainActivity main = new MainActivity();
 
     //自機関係
     private Fighter fighter = new Fighter();      //自機
@@ -44,6 +50,20 @@ public class GameMaster implements GLSurfaceView.Renderer
     private Sprite2D background2 = new Sprite2D();   //背景画面
     private Sprite2D gameover = new Sprite2D();     //ゲームオーバー画面
     private Sprite2D gameclear = new Sprite2D();    //ゲームクリア画面
+
+    private Sprite2D system1 = new Sprite2D();      //システムウインドウ１
+    private Sprite2D system2 = new Sprite2D();      //システムウインドウ２
+
+    //ボタン関係
+    private Sprite2D title_bt_exit = new Sprite2D();      //
+    private Sprite2D title_bt_start = new Sprite2D();    //
+    private Sprite2D system_bt_next = new Sprite2D();      //
+    private Sprite2D system_bt_exit = new Sprite2D();    //
+    private Sprite2D gameover_bt_restart = new Sprite2D();      //
+    private Sprite2D gameover_bt_title = new Sprite2D();    //
+    private Sprite2D gameclear_bt_restart = new Sprite2D();      //
+    private Sprite2D gameclear_bt_title = new Sprite2D();    //
+
 
     //衝突判定
     private CollisionCheck CC = new CollisionCheck();
@@ -70,6 +90,7 @@ public class GameMaster implements GLSurfaceView.Renderer
         switch(gamemode){
             case 0:     //タイトル画面
                 title.draw(gl,getRatio());
+                TitleButton(gl);
                 break;
             case 1:     //ゲーム画面
                 background.draw(gl,getRatio());
@@ -106,12 +127,25 @@ public class GameMaster implements GLSurfaceView.Renderer
                     CC.ObjectCollisionCheck(fb_1, enemy1[i]);
                 }
 
+                //ゲームクリア判定
+                GameClear(real_time);
+
                 break;
             case 2:     //ゲームオーバー画面
                 gameover.draw(gl,getRatio());
+                Game_O_C_Button(gl);
+
                 break;
             case 3:     //ゲームクリア画面
+                gameclear.draw(gl,getRatio());
+                Game_O_C_Button(gl);
                 break;
+            case 4:     //システムウインドウ
+                background.draw(gl,getRatio());
+                if(!system_bt_next.flag4)system1.draw(gl,getRatio());
+                if(system_bt_next.flag4)system2.draw(gl,getRatio());
+                SystemButton(gl);
+
         }
     }
     //画面比率
@@ -121,6 +155,117 @@ public class GameMaster implements GLSurfaceView.Renderer
     //時間を得る
     private void getTime(){
         timer += 1;
+        if(timer%60 == 0){
+            real_time += 1;
+            System.out.println("real_time " + real_time);
+        }
+        //System.out.println("time " + timer);
+
+    }
+
+    private void GameClear(int real_time){
+        if(real_time == 15)gamemode = 3;
+    }
+    private void TitleButton(GL10 gl){
+        if(gamemode == 0){
+            if(!title_bt_exit.flag || title_bt_exit.flag3){
+                title_bt_exit._pos._x = 100;
+                title_bt_exit._pos._y = 70;
+                if(title_bt_exit.flag3)System.exit(0);
+            }
+
+            if(title_bt_exit.flag && !title_bt_exit.flag2){
+                title_bt_exit._width -= 40;
+                title_bt_exit._height -= 40;
+                title_bt_exit._pos._x += 20;
+                title_bt_exit._pos._y += 10;
+                title_bt_exit.flag2 = true;
+            }
+
+            if(!title_bt_start.flag || title_bt_start.flag3){
+                title_bt_start._pos._x = 690;
+                title_bt_start._pos._y = 70;
+                if(title_bt_start.flag3)gamemode = 4;
+            }
+            if(title_bt_start.flag && !title_bt_start.flag2){
+                title_bt_start._width -= 40;
+                title_bt_start._height -= 40;
+                title_bt_start._pos._x += 20;
+                title_bt_start._pos._y += 10;
+                title_bt_start.flag2 = true;
+            }
+            title_bt_exit.draw(gl);
+            title_bt_start.draw(gl);
+        }
+    }
+    private void Game_O_C_Button(GL10 gl){
+        if(gamemode == 0){
+            if(!title_bt_exit.flag || title_bt_exit.flag3){
+                title_bt_exit._pos._x = 100;
+                title_bt_exit._pos._y = 70;
+                if(title_bt_exit.flag3)System.exit(0);
+            }
+
+            if(title_bt_exit.flag && !title_bt_exit.flag2){
+                title_bt_exit._width -= 40;
+                title_bt_exit._height -= 40;
+                title_bt_exit._pos._x += 20;
+                title_bt_exit._pos._y += 10;
+                title_bt_exit.flag2 = true;
+            }
+
+            if(!title_bt_start.flag || title_bt_start.flag3){
+                title_bt_start._pos._x = 690;
+                title_bt_start._pos._y = 70;
+                if(title_bt_start.flag3)gamemode = 4;
+            }
+            if(title_bt_start.flag && !title_bt_start.flag2){
+                title_bt_start._width -= 40;
+                title_bt_start._height -= 40;
+                title_bt_start._pos._x += 20;
+                title_bt_start._pos._y += 10;
+                title_bt_start.flag2 = true;
+            }
+            title_bt_exit.draw(gl);
+            title_bt_start.draw(gl);
+        }
+    }
+    private void SystemButton(GL10 gl){
+        if(!system_bt_next.flag4) {
+            if (!system_bt_next.flag || system_bt_next.flag3) {
+                system_bt_next._pos._x = 1740;
+                system_bt_next._pos._y = 150;
+                if (system_bt_next.flag3) system_bt_next.flag4 = true;
+            }
+
+            if (system_bt_next.flag && !system_bt_next.flag2) {
+                system_bt_next._width -= 20;
+                system_bt_next._height -= 20;
+                system_bt_next._pos._x += 10;
+                system_bt_next._pos._y += 5;
+                system_bt_next.flag2 = true;
+            }
+            system_bt_next.draw(gl);
+            //system_bt_exit.draw(gl);
+        }
+        if(system_bt_next.flag4){
+            if (!system_bt_exit.flag || system_bt_exit.flag3) {
+                system_bt_exit._pos._x = 1740;
+                system_bt_exit._pos._y = 150;
+                if (system_bt_exit.flag3) gamemode = 1;
+            }
+
+            if (system_bt_exit.flag && !system_bt_exit.flag2) {
+                system_bt_exit._width -= 20;
+                system_bt_exit._height -= 20;
+                system_bt_exit._pos._x += 10;
+                system_bt_exit._pos._y += 5;
+                system_bt_exit.flag2 = true;
+            }
+            //system_bt_next.draw(gl);
+            system_bt_exit.draw(gl);
+        }
+
     }
 
     private void BackgroundMove(GL10 gl,float getRatio){
@@ -133,8 +278,8 @@ public class GameMaster implements GLSurfaceView.Renderer
         }
         background._pos._x -= 2;
         background2._pos._x -= 2;
-        System.out.println("move " + (int)-background2._pos._x);
-        System.out.println("wid " + _width*2);
+        //System.out.println("move " + (int)-background2._pos._x);
+        //System.out.println("wid " + _width*2);
     }
     //サーフェイス
     //サーフェイスのサイズ変更した時
@@ -150,15 +295,36 @@ public class GameMaster implements GLSurfaceView.Renderer
         gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
         //使用する画像
         fighter.setTexture(gl,_context.getResources(),R.drawable.fighter2);  //自機
-        title.setTexture(gl,_context.getResources(),R.drawable.title4);  //タイトル画面
+        title.setTexture(gl,_context.getResources(),R.drawable.taitoru1);  //タイトル画面
+        title._texWidth = 1024;
+        title._width = 1024 ;
         background.setTexture(gl,_context.getResources(),R.drawable.haikei1_50_2);  //背景
         background._texWidth = 2048;
         background._width = 2048;
         background2.setTexture(gl,_context.getResources(),R.drawable.haikei1_50_2);  //背景
         background2._texWidth = 2048;
-        background2._width = 2050;
-        gameover.setTexture(gl,_context.getResources(),R.drawable.gameover1);  //ゲームオーバー画面
+        background2._width = 2048;
+        gameover.setTexture(gl,_context.getResources(),R.drawable.gameover_kari1);  //ゲームオーバー画面
+        gameover._texWidth = 1024;
+        gameover._width = 1024 ;
         gameclear.setTexture(gl,_context.getResources(),R.drawable.gameclear1);  //ゲームクリア画面
+
+        system1.setTexture(gl,_context.getResources(),R.drawable.sys1);   //システム１
+        system1._texWidth = 1024;
+        system1._width = 1024 ;
+        system2.setTexture(gl,_context.getResources(),R.drawable.sys2);   //システム2
+        system2._texWidth = 1024;
+        system2._width = 1024 ;
+        //ボタン
+        title_bt_exit.setTexture(gl,_context.getResources(),R.drawable.bt2);  //
+        title_bt_start.setTexture(gl,_context.getResources(),R.drawable.bt1);  //
+        title_bt_exit._texWidth = 512;
+        title_bt_exit._width = 512;
+        title_bt_start._texWidth = 512;
+        title_bt_start._width = 512;
+
+        system_bt_next.setTexture(gl,_context.getResources(),R.drawable.bt3);  //
+        system_bt_exit.setTexture(gl,_context.getResources(),R.drawable.bt4);  //
 
         for(int i=0; i<enemy1.length; i++){
             enemy1[i] = new Enemy1();
@@ -183,9 +349,18 @@ public class GameMaster implements GLSurfaceView.Renderer
 
 
     //初期化関連
+    public void InitAll(){
+        init();
+        reset();
+        fb_1[0].FighterBulletInit(fb_1,_width,_height);
+        eb_1[0][0].EnemyBulletInit(enemy1,eb_1,_width,_height);
+        fighter.FighterInit(fighter);
+        enemy1[0].EnemyInit(enemy1,_width,_height);
+    }
     public void init(){
         explode._visible = false;
         timer = -1;
+        real_time = -1;
         background._pos._x = 0;
         background2._pos._x = (_width-1)*2;
     }
@@ -207,8 +382,36 @@ public class GameMaster implements GLSurfaceView.Renderer
     //タッチ関係
     //タップしたとき
     public void actionDown(float x,float y) {
+        float y1 = _height - y -20;
         switch(gamemode){
             case 0:
+                if(x > title_bt_exit._pos._x && x < title_bt_exit._pos._x+title_bt_start._width){
+                    if(y1 > title_bt_exit._pos._y && y1 < title_bt_exit._pos._y+bt1_height){
+                        title_bt_exit.flag = true;
+                    }
+                }
+                /*
+                if(x > 600 && x < 1000){
+                    title_bt_start.flag = true;
+                    System.out.println("ON3 ");
+                }
+
+                 */
+                if(x > title_bt_start._pos._x && x < title_bt_start._pos._x+title_bt_start._width){
+                    if(y1 > title_bt_start._pos._y && y1 < title_bt_start._pos._y+bt1_height){
+                        title_bt_start.flag = true;
+                    }
+                }
+                /*
+                System.out.println("x "+x);
+                System.out.println("y "+y1);
+                System.out.println("y1 "+y);
+                System.out.println("wid "+_width);
+                System.out.println("hei "+_height);
+                System.out.println("titlex "+title_bt_start._pos._x);
+                System.out.println("titley "+title_bt_start._pos._y);
+
+                 */
                 break;
             case 1:
                 break;
@@ -216,6 +419,18 @@ public class GameMaster implements GLSurfaceView.Renderer
                 gamemode = 0;
                 break;
             case 3:
+                break;
+            case 4:
+                if(x > system_bt_next._pos._x && x < system_bt_next._pos._x+bt2_width){
+                    if(y1 > system_bt_next._pos._y && y1 < system_bt_next._pos._y+bt2_height){
+                        system_bt_next.flag = true;
+                    }
+                }
+                if(x > system_bt_exit._pos._x && x < system_bt_exit._pos._x+bt2_width){
+                    if(y1 > system_bt_exit._pos._y && y1 < system_bt_exit._pos._y+bt2_height){
+                        system_bt_exit.flag = true;
+                    }
+                }
                 break;
         }
     }
@@ -246,28 +461,37 @@ public class GameMaster implements GLSurfaceView.Renderer
                 break;
             case 3:
                 break;
+            case 4:
         }
     }
     public void actionUp(float x,float y) {
         //タップを離した時
         switch(gamemode){
             case 0:
+                //初期化
+                /*
                 init();
                 reset();
                 fb_1[0].FighterBulletInit(fb_1,_width,_height);
                 eb_1[0][0].EnemyBulletInit(enemy1,eb_1,_width,_height);
                 fighter.FighterInit(fighter);
                 enemy1[0].EnemyInit(enemy1,_width,_height);
-                gamemode = 1;
+                 */
+                InitAll();
+                if(title_bt_exit.flag)title_bt_exit.flag3 = true;
+                if(title_bt_start.flag)title_bt_start.flag3 = true;
                 break;
             case 1:
                 reset();
-                //System.out.println("x座標の慣性 "+amount_of_movement._x);
-                //System.out.println("y座標の慣性 "+amount_of_movement._y);
                 break;
             case 2:
+                InitAll();
                 break;
             case 3:
+                break;
+            case 4:
+                if(system_bt_next.flag)system_bt_next.flag3 = true;
+                if(system_bt_exit.flag)system_bt_exit.flag3 = true;
                 break;
         }
     }
