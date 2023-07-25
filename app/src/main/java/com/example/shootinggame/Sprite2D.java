@@ -34,6 +34,7 @@ public class Sprite2D
     public int _texHeight;
 	public int hp = 0;
 	public int number = 0;
+	public boolean score_flag = false;
 	public boolean hp_flag = false;
 	public boolean flag = false;
 	public boolean flag2 = false;

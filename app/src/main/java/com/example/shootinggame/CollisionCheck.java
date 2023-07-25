@@ -60,7 +60,7 @@ public class CollisionCheck {
         }
     }
     //オブジェ１とオブジェ２（配列同士の当たり判定）
-    public void ObjectCollisionCheck(Sprite2D obj1[],Sprite2D obj2){
+    public void ObjectCollisionCheck(Sprite2D obj1[],Sprite2D obj2,int score){
         for (int i = 0; i < obj1.length; i++) {
             float o12_x = obj1[i]._pos._x - obj2._pos._x;
             float o12_y = obj1[i]._pos._y - obj2._pos._y;
@@ -68,9 +68,17 @@ public class CollisionCheck {
                 if ((o12_x <= obj2._width) && (o12_x >= -obj1[i]._width) && (o12_y <= obj2._height) && (o12_y >= -obj1[i]._height)) {
                     //se_explosion.play(soundID, 1.0F, 1.0F, 0, 0, 1.0F);
                     obj1[i].hp -= 1;
-                    if (obj1[i].hp == 0) obj1[i].hp_flag = false;
+                    if (obj1[i].hp == 0) {
+                        obj1[i].hp_flag = false;
+                        obj1[i].score_flag = true;
+                        //score += 200;
+                    }
                     obj2.hp -= 1;
-                    if (obj2.hp == 0) obj2.hp_flag = false;
+                    if (obj2.hp == 0) {
+                        obj2.hp_flag = false;
+                        obj2.score_flag = true;
+                        //score += 200;
+                    }
                 }
             }
         }

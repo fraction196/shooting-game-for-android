@@ -14,6 +14,7 @@ public class FighterBullet1 extends Sprite2D{
     //public int fighterbullet_on = 1;
 
 
+    /*
     //自機弾を発射するクラス
     public void FighterBulletMove(FighterBullet1 fighterbullet[],int _width){
         for (int i = 0; i < fighterbullet.length; i++) {
@@ -53,10 +54,12 @@ public class FighterBullet1 extends Sprite2D{
             }
         }
     }
+
+     */
     //自機弾の生成
     public void FighterBulletGeneration1(FighterBullet1[] fb_1,int timer,GL10 gl,int _width,Fighter fighter) {
         for (int i = 0; i < fb_1.length; i++) {
-            if(((timer%50)==0)&&(fb_1[i].hp==0)){
+            if(((timer%25)==0)&&(fb_1[i].hp==0)){
                 fb_1[i].hp = -1;
             }
             if((fb_1[i].hp == -1)&&(!(fb_1[i].hp_flag))){
@@ -73,7 +76,7 @@ public class FighterBullet1 extends Sprite2D{
         for (int i = 0; i < fb_1.length; i++) {
             if(fb_1[i].hp == 1) {
                 if (fb_1[i]._pos._x < _width) {
-                    fb_1[i]._pos._x += 9;
+                    fb_1[i]._pos._x += 15;
                 } else {
                     fb_1[i].hp = 0;
                     fb_1[i].hp_flag = false;

@@ -13,8 +13,8 @@ import javax.microedition.khronos.opengles.GL11Ext;
 public class Fighter extends Sprite2D{
 
     public Vector2D amount_of_movement = new Vector2D(0,0); //自機の移動量
-    public static final int fighter_width = 256;  //自機の幅
-    public static final int fighter_height = 256;  //自機の高さ
+    public static final int fighter_width = 190;  //自機の幅
+    public static final int fighter_height = 190;  //自機の高さ
     public float fighter_speed = 1.5f;           //自機の速さ
     public static final int teki1_size = 128;  //自機のサイズ
     public int hp = 3; //自機の体力

@@ -22,16 +22,17 @@ public class Enemy1 extends Sprite2D {
     private int enemy_frequency_time_first = 0;
     private boolean enemyflag = false;
     private int teki_y;
+    public int hp = 3; //自機の体力
 
     public void enemyDraw(Enemy1 enemy[], GL10 gl){
         for(int i = 0;i< enemy.length; i++){
-            if(enemy[i].hp == 1)enemy[i].draw(gl);
+            if(enemy[i].hp >= 1)enemy[i].draw(gl);
         }
     }
 
     public void enemyMove(Enemy1 enemy[]){
         for(int i=0; i<enemy.length; i++){
-            if(enemy[i].hp == 1) {
+            if(enemy[i].hp >= 1) {
                 if (enemy[i]._pos._x + enemy[i]._width > 0) {
                     enemy[i]._pos._x -= teki1_x_speed;
                     //enemy[i]._pos._y += teki_angle[i] + teki_movement[i]._y;
