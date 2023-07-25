@@ -63,8 +63,13 @@ public class GameMaster implements GLSurfaceView.Renderer
     private Sprite2D system_bt_exit = new Sprite2D();    //
     private Sprite2D gameover_bt_restart = new Sprite2D();      //
     private Sprite2D gameover_bt_title = new Sprite2D();    //
-    private Sprite2D gameclear_bt_restart = new Sprite2D();      //
-    private Sprite2D gameclear_bt_title = new Sprite2D();    //
+    private Sprite2D sys1 = new Sprite2D();      //システム1
+    private Sprite2D sys2 = new Sprite2D();      //システム1
+    private Sprite2D sys3 = new Sprite2D();      //システム1
+    private Sprite2D hp1_png = new Sprite2D();    //HP1
+    private Sprite2D hp2_png = new Sprite2D();    //HP2
+    private Sprite2D hp3_png = new Sprite2D();    //HP3
+    private Sprite2D hp4_png = new Sprite2D();    //HP4
 
 
     //衝突判定
@@ -129,6 +134,7 @@ public class GameMaster implements GLSurfaceView.Renderer
                     CC.ObjectCollisionCheck(fb_1, enemy1[i]);
                 }
 
+                system_hp_Draw(gl);
                 //ゲームクリア判定
                 GameClear(real_time);
 
@@ -167,6 +173,60 @@ public class GameMaster implements GLSurfaceView.Renderer
 
     private void GameClear(int real_time){
         if(real_time == 60)gamemode = 3;
+    }
+    private void system_hp_Draw(GL10 gl){
+        sys1._pos._x = 40;
+        sys1._pos._y = 860;
+        sys2._pos._x = 40;
+        sys2._pos._y = 860;
+        sys3._pos._x = 40;
+        sys3._pos._y = 860;
+        switch (fighter.hp){
+            case 1:
+                sys3.draw(gl);
+                hp1_png._pos._x = 360;
+                hp1_png._pos._y = 880;
+                hp1_png.draw(gl);
+                break;
+            case 2:
+                sys2.draw(gl);
+                hp1_png._pos._x = 360;
+                hp1_png._pos._y = 880;
+                hp1_png.draw(gl);
+                hp2_png._pos._x = 445;
+                hp2_png._pos._y = 880;
+                hp2_png.draw(gl);
+
+                break;
+            case 3:
+                sys1.draw(gl);
+                hp1_png._pos._x = 360;
+                hp1_png._pos._y = 880;
+                hp1_png.draw(gl);
+                hp2_png._pos._x = 445;
+                hp2_png._pos._y = 880;
+                hp2_png.draw(gl);
+                hp3_png._pos._x = 530;
+                hp3_png._pos._y = 880;
+                hp3_png.draw(gl);
+                break;
+            case 4:
+                sys1.draw(gl);
+                hp1_png._pos._x = 360;
+                hp1_png._pos._y = 880;
+                hp1_png.draw(gl);
+                hp2_png._pos._x = 445;
+                hp2_png._pos._y = 880;
+                hp2_png.draw(gl);
+                hp3_png._pos._x = 530;
+                hp3_png._pos._y = 880;
+                hp3_png.draw(gl);
+                hp3_png._pos._x = 615;
+                hp3_png._pos._y = 880;
+                hp3_png.draw(gl);
+
+                break;
+        }
     }
     private void TitleButton(GL10 gl){
         if(gamemode == 0){
@@ -342,6 +402,22 @@ public class GameMaster implements GLSurfaceView.Renderer
         system2.setTexture(gl,_context.getResources(),R.drawable.sys2);   //システム2
         system2._texWidth = 1024;
         system2._width = 1024 ;
+
+        sys1.setTexture(gl,_context.getResources(),R.drawable.sys1_kari2);//ゲーム画面のシステム
+        sys2.setTexture(gl,_context.getResources(),R.drawable.sys2_kari);//ゲーム画面のシステム差分
+        sys3.setTexture(gl,_context.getResources(),R.drawable.sy3_kari);//ゲーム画面のシステム差分
+        hp1_png.setTexture(gl,_context.getResources(),R.drawable.hp1);
+        hp1_png._width += 15;
+        hp1_png._height += 15;
+        hp2_png.setTexture(gl,_context.getResources(),R.drawable.hp1);
+        hp2_png._width += 15;
+        hp2_png._height += 15;
+        hp3_png.setTexture(gl,_context.getResources(),R.drawable.hp1);
+        hp3_png._width += 15;
+        hp3_png._height += 15;
+        hp4_png.setTexture(gl,_context.getResources(),R.drawable.hp1);
+        hp4_png._width += 15;
+        hp4_png._height += 15;
         //ボタン
         title_bt_exit.setTexture(gl,_context.getResources(),R.drawable.bt2);  //
         title_bt_start.setTexture(gl,_context.getResources(),R.drawable.bt1);  //
