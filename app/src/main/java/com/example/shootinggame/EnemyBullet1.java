@@ -42,7 +42,7 @@ public class EnemyBullet1 extends Sprite2D{
                         enemybullet[j][i].hp = -1;
                     if ((enemybullet[j][i].hp == -1) && (!enemybullet[j][i].hp_flag)) {
                         enemybullet[j][i]._pos._x = enemy[j]._pos._x;
-                        enemybullet[j][i]._pos._y = enemy[j]._pos._y + (enemy[j]._height / 2);
+                        enemybullet[j][i]._pos._y = enemy[j]._pos._y + (enemy[j]._height / 2) - (enemybullet[j][i]._height / 2);
                         enemybullet[j][i].hp_flag = true;
                         enemybullet[j][i].hp = 1;
                         break;

@@ -485,15 +485,18 @@ public class GameMaster implements GLSurfaceView.Renderer
         //自機弾
         for(int i=0; i<fb_1.length; i++){
             fb_1[i] = new FighterBullet1();
-            fb_1[i].setTexture(gl,_context.getResources(),R.drawable.fighterbullet1);
+            fb_1[i].setTexture(gl,_context.getResources(),R.drawable.fb_1);
         }
 
         //敵弾
         for(int j=0; j<enemy1.length; j++) {
             for (int i = 0; i < eb_1[j].length; i++) {
                 eb_1[j][i] = new EnemyBullet1();
-                eb_1[j][i].setTexture(gl, _context.getResources(), R.drawable.enemybullet1);
+                eb_1[j][i].setTexture(gl, _context.getResources(), R.drawable.eb_1);
+                eb_1[j][i]._height = 40;
+                eb_1[j][i]._width = 40;
             }
+
         }
 
     }
