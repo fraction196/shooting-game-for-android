@@ -37,7 +37,7 @@ public class EnemyBullet1 extends Sprite2D{
     public void EnemyBulletGeneration(Enemy1 enemy[],EnemyBullet1 enemybullet[][],int timer) {
         for (int j = 0; j < enemy.length; j++) {
             for (int i = 0; i < enemybullet[j].length; i++) {
-                if (enemy[j].hp == 1) {
+                if (enemy[j].hp >= 1) {
                     if (((timer % 100) == 0) && (enemybullet[j][i].hp == 0))
                         enemybullet[j][i].hp = -1;
                     if ((enemybullet[j][i].hp == -1) && (!enemybullet[j][i].hp_flag)) {

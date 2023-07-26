@@ -22,14 +22,56 @@ public class Enemy1 extends Sprite2D {
     private int enemy_frequency_time_first = 0;
     private boolean enemyflag = false;
     private int teki_y;
-    public int hp = 3; //自機の体力
+    public int enemy1_hp = 3; //敵1の体力
+    //public boolean invincible_time = false; //無敵時間
+    //public int invincible_switch = 0; //無敵時間
+    //public int invincible_count = 0;
 
     public void enemyDraw(Enemy1 enemy[], GL10 gl){
         for(int i = 0;i< enemy.length; i++){
-            if(enemy[i].hp >= 1)enemy[i].draw(gl);
+            if(enemy[i].hp >= 1) {
+                if (enemy[i].invincible_time) {
+                    if (enemy[i].invincible_count < 2) {
+                        if (enemy[i].invincible_switch < 5) {
+                            enemy[i].invincible_switch += 1;
+                        } else if (enemy[i].invincible_switch < 10) {
+                            enemy[i].draw(gl);
+                            enemy[i].invincible_switch += 1;
+                        } else if (enemy[i].invincible_switch == 10){
+                            enemy[i].invincible_switch = 0;
+                            enemy[i].invincible_count += 1;
+                        }
+                    }if(enemy[i].invincible_count == 2){
+                        enemy[i].invincible_time = false;
+                        enemy[i].invincible_count = 0;
+                    }
+                    //EnemyInvincibleTime(enemy,gl);
+                } else if(!enemy[i].invincible_time){
+                    enemy[i].draw(gl);
+                }
+            }
         }
     }
 
+    public void EnemyInvincibleTime(Enemy1 enemy[],GL10 gl){
+        for(int i=0; i<enemy.length; i++) {
+            if (enemy[i].invincible_count < 2) {
+                if (enemy[i].invincible_switch < 5) {
+                    enemy[i].invincible_switch += 1;
+                } else if (enemy[i].invincible_switch < 10) {
+                    enemy[i].draw(gl);
+                    enemy[i].invincible_switch += 1;
+                } else {
+                    enemy[i].invincible_switch = 0;
+                    enemy[i].invincible_count += 1;
+                }
+            } else {
+                enemy[i].invincible_time = false;
+                enemy[i].invincible_count = 0;
+            }
+        }
+
+    }
     public void enemyMove(Enemy1 enemy[]){
         for(int i=0; i<enemy.length; i++){
             if(enemy[i].hp >= 1) {
@@ -48,7 +90,7 @@ public class Enemy1 extends Sprite2D {
     public void EnemyGeneration(Enemy1 enemy[], int _width, int _height, int timer) {
         number_of_enemies = 0;
         for (int i = 0; i < enemy.length; i++) {
-            if (enemy[i].hp == 1) number_of_enemies += 1;
+            if (enemy[i].hp_flag) number_of_enemies += 1;
         }
         //System.out.println("num " + number_of_enemies);
         if (number_of_enemies < 6) {
@@ -63,7 +105,7 @@ public class Enemy1 extends Sprite2D {
                     enemy[i]._pos._x = 400 + _width;
                     enemy[i]._pos._y = teki_first_y[i];
                     enemy_frequency_time_first = timer;
-                    enemy[i].hp = 1;
+                    enemy[i].hp = enemy1_hp;
                     enemy[i].hp_flag = true;
                     enemy_stoptime = 0;
                     Random r2 = new Random();
@@ -82,6 +124,7 @@ public class Enemy1 extends Sprite2D {
         for (int i = 0; i < enemy.length; i++) {
             enemy[i].hp = 0;
             enemy[i].hp_flag = false;
+            enemy[i].invincible_time = false;
             enemy[i]._pos._x = 100 + _width;
             enemy[i]._pos._y = 100 + _height;
         }

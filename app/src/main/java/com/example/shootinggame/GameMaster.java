@@ -115,9 +115,26 @@ public class GameMaster implements GLSurfaceView.Renderer
                 enemy1[0].enemyMove(enemy1);
                 enemy1[0].enemyDraw(enemy1,gl);
 
+                //弾の描画
+                fb_1[0].FighterBulletGeneration1(fb_1,timer,gl,_width,fighter);
+
+                for(int i = 0; i < enemy1.length; i++){
+                    CC.ObjectCollisionCheck(fb_1, enemy1[i],score);
+                    if(enemy1[i].invincible_time){
+                        System.out.println("enI "+i);
+                    }
+                    if(enemy1[i].score_flag){
+                        score += 200;
+                        enemy1[i].score_flag = false;
+                    }
+                }
 
                 //自機の描画と当たり判定
                 fighter.FighterMove(fighter,_width,_height);
+                //弾の当たり判定
+                eb_1[0][0].EnemyBulletGeneration(enemy1,eb_1,timer);
+                eb_1[0][0].EnemyBulletDraw(enemy1,eb_1,gl);
+                eb_1[0][0].EnemyBulletMove(enemy1,eb_1);
                 //System.out.println("in_time " + fighter.invincible_time);
                 if(fighter.invincible_time)fighter.InvincibleTime(fighter,gl);
                 if(!fighter.invincible_time){
@@ -127,21 +144,6 @@ public class GameMaster implements GLSurfaceView.Renderer
                 }
                 if(fighter.hp == 0) gamemode = 2;
 
-                //弾の描画
-                fb_1[0].FighterBulletGeneration1(fb_1,timer,gl,_width,fighter);
-
-
-                //弾の当たり判定
-                eb_1[0][0].EnemyBulletGeneration(enemy1,eb_1,timer);
-                eb_1[0][0].EnemyBulletDraw(enemy1,eb_1,gl);
-                eb_1[0][0].EnemyBulletMove(enemy1,eb_1);
-                for(int i = 0; i < enemy1.length; i++){
-                    CC.ObjectCollisionCheck(fb_1, enemy1[i],score);
-                    if(enemy1[i].score_flag){
-                        score += 200;
-                        enemy1[i].score_flag = false;
-                    }
-                }
                 drawScore(gl);
                 system_hp_Draw(gl);
                 //ゲームクリア判定

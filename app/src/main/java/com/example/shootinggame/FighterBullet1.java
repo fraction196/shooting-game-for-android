@@ -59,7 +59,7 @@ public class FighterBullet1 extends Sprite2D{
     //自機弾の生成
     public void FighterBulletGeneration1(FighterBullet1[] fb_1,int timer,GL10 gl,int _width,Fighter fighter) {
         for (int i = 0; i < fb_1.length; i++) {
-            if(((timer%25)==0)&&(fb_1[i].hp==0)){
+            if(((timer%20)==0)&&(fb_1[i].hp==0)){
                 fb_1[i].hp = -1;
             }
             if((fb_1[i].hp == -1)&&(!(fb_1[i].hp_flag))){

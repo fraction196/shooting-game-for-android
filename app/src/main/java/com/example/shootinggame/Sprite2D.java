@@ -40,6 +40,9 @@ public class Sprite2D
 	public boolean flag2 = false;
 	public boolean flag3 = false;
 	public boolean flag4 = false;
+	public boolean invincible_time = false; //無敵時間
+	public int invincible_switch = 0; //無敵時間
+	public int invincible_count = 0;
     public void setTexture(GL10 gl,Resources res,int id)
     {
 
