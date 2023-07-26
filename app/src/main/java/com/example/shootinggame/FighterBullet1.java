@@ -1,11 +1,11 @@
+/*
+ *　自機弾のクラス
+ */
+
 package com.example.shootinggame;
-import android.content.Context;
-import android.media.AudioManager;
-import android.opengl.GLSurfaceView;
-import javax.microedition.khronos.egl.EGLConfig;
+
 import javax.microedition.khronos.opengles.GL10;
-import android.media.SoundPool;
-import java.util.Random;
+
 
 public class FighterBullet1 extends Sprite2D{
     //弾関係

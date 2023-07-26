@@ -1,3 +1,7 @@
+/*
+ * ゲームの進行を行うクラス
+ * 画面描画やゲームの処理を行う
+ */
 package com.example.shootinggame;
 
 import android.content.Context;
@@ -39,7 +43,7 @@ public class GameMaster implements GLSurfaceView.Renderer
     private static final int enemybullet_number = 30;  //敵弾数
     //敵a1
     private static final int enemy1_number = 10;  //敵１の数
-    private Enemy1 enemy1[] = new Enemy1[enemy1_number];  //敵
+    private Enemy_a1 enemy1[] = new Enemy_a1[enemy1_number];  //敵
     private EnemyBullet1[][] eb_1 = new EnemyBullet1[enemy1_number][enemybullet_number];  //敵１の弾
     //敵a2
     private static final int enemy_a2_number = 10;  //敵１の数
@@ -84,7 +88,7 @@ public class GameMaster implements GLSurfaceView.Renderer
 
     //アイテム
     private int Item_number;
-    private Item1 power[] = new Item1[Item_number];
+    private Item_p power[] = new Item_p[Item_number];
 
     //スコア
     private SpriteText number = new SpriteText();
@@ -609,7 +613,7 @@ public class GameMaster implements GLSurfaceView.Renderer
         //敵関係
         //敵a1
         for(int i=0; i<enemy1.length; i++){
-            enemy1[i] = new Enemy1();
+            enemy1[i] = new Enemy_a1();
             enemy1[i].setTexture(gl,_context.getResources(),R.drawable.teki_a1);
         }
         //敵a2

@@ -1,16 +1,8 @@
-package com.example.shootinggame;
+/*
+ * 衝突判定を行うクラス
+ */
 
-import android.content.Context;
-import android.media.AudioManager;
-import android.media.SoundPool;
-import android.opengl.GLSurfaceView;
-import android.content.Context;
-import android.media.AudioManager;
-import android.opengl.GLSurfaceView;
-import javax.microedition.khronos.egl.EGLConfig;
-import javax.microedition.khronos.opengles.GL10;
-import android.media.SoundPool;
-import java.util.Random;
+package com.example.shootinggame;
 
 public class CollisionCheck {
         //private Context _context;

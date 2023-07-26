@@ -1,15 +1,11 @@
-package com.example.shootinggame;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.opengl.GLUtils;
+/*
+ *　自機のクラス
+ */
 
-import java.io.IOException;
-import java.io.InputStream;
+package com.example.shootinggame;
 
 import javax.microedition.khronos.opengles.GL10;
-import javax.microedition.khronos.opengles.GL11;
-import javax.microedition.khronos.opengles.GL11Ext;
+
 public class Fighter extends Sprite2D{
 
     public Vector2D amount_of_movement = new Vector2D(0,0); //自機の移動量

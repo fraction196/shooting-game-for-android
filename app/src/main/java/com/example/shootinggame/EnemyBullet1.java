@@ -1,14 +1,14 @@
+/*
+ *　敵弾のクラス
+ */
+
 package com.example.shootinggame;
-import android.content.Context;
-import android.media.AudioManager;
-import android.opengl.GLSurfaceView;
-import javax.microedition.khronos.egl.EGLConfig;
+
 import javax.microedition.khronos.opengles.GL10;
-import android.media.SoundPool;
-import java.util.Random;
+
 
 public class EnemyBullet1 extends Sprite2D{
-    public void EnemyBulletMove(Enemy1 enemy[],EnemyBullet1 enemybullet[][]){
+    public void EnemyBulletMove(Enemy_a1 enemy[], EnemyBullet1 enemybullet[][]){
         for (int j = 0; j < enemy.length; j++) {
             for (int i = 0; i < enemybullet[j].length; i++) {
                 if (enemybullet[j][i].hp == 1) {
@@ -26,7 +26,7 @@ public class EnemyBullet1 extends Sprite2D{
 
 
     //敵弾の描画
-    public void EnemyBulletDraw(Enemy1 enemy[],EnemyBullet1 enemybullet[][],GL10 gl){
+    public void EnemyBulletDraw(Enemy_a1 enemy[], EnemyBullet1 enemybullet[][], GL10 gl){
         for (int j = 0; j < enemy.length; j++) {
             for (int i = 0; i < enemybullet[j].length; i++) {
                 if (enemybullet[j][i].hp == 1) enemybullet[j][i].draw(gl);
@@ -34,7 +34,7 @@ public class EnemyBullet1 extends Sprite2D{
         }
     }
     //敵弾の生成
-    public void EnemyBulletGeneration(Enemy1 enemy[],EnemyBullet1 enemybullet[][],int timer) {
+    public void EnemyBulletGeneration(Enemy_a1 enemy[], EnemyBullet1 enemybullet[][], int timer) {
         for (int j = 0; j < enemy.length; j++) {
             for (int i = 0; i < enemybullet[j].length; i++) {
                 if (enemy[j].hp >= 1) {
@@ -51,7 +51,7 @@ public class EnemyBullet1 extends Sprite2D{
             }
         }
     }
-    public void EnemyBulletInit(Enemy1 enemy[],EnemyBullet1 enemybullet[][],int _width,int _height){
+    public void EnemyBulletInit(Enemy_a1 enemy[], EnemyBullet1 enemybullet[][], int _width, int _height){
         for(int j=0; j<enemy.length; j++) {
             for (int i = 0; i < enemybullet[j].length; i++) {
                 enemybullet[j][i].hp = 0;

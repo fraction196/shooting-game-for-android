@@ -1,3 +1,6 @@
+/*
+ *　敵のクラス
+ */
 package com.example.shootinggame;
 
 import java.util.Random;

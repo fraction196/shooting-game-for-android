@@ -1,14 +1,13 @@
+/*
+ *　敵のクラス
+ */
+
 package com.example.shootinggame;
-import android.content.Context;
-import android.content.res.Resources;
-import android.media.AudioManager;
-import android.opengl.GLSurfaceView;
-import javax.microedition.khronos.egl.EGLConfig;
+
 import javax.microedition.khronos.opengles.GL10;
-import android.media.SoundPool;
 import java.util.Random;
 
-public class Enemy1 extends Sprite2D {
+public class Enemy_a1 extends Sprite2D {
     //private Sprite2D[] enemy = new Sprite2D[enemy_number];  //敵
     private static final int enemy_number = 10;  //敵１の数
     public int number_of_enemies = 0;//一画面に出てくる敵の量
@@ -27,7 +26,7 @@ public class Enemy1 extends Sprite2D {
     //public int invincible_switch = 0; //無敵時間
     //public int invincible_count = 0;
 
-    public void enemyDraw(Enemy1 enemy[], GL10 gl){
+    public void enemyDraw(Enemy_a1 enemy[], GL10 gl){
         for(int i = 0;i< enemy.length; i++){
             if(enemy[i].hp >= 1) {
                 if (enemy[i].invincible_time) {
@@ -53,7 +52,7 @@ public class Enemy1 extends Sprite2D {
         }
     }
 
-    public void EnemyInvincibleTime(Enemy1 enemy[],GL10 gl){
+    public void EnemyInvincibleTime(Enemy_a1 enemy[], GL10 gl){
         for(int i=0; i<enemy.length; i++) {
             if (enemy[i].invincible_count < 2) {
                 if (enemy[i].invincible_switch < 5) {
@@ -72,7 +71,7 @@ public class Enemy1 extends Sprite2D {
         }
 
     }
-    public void enemyMove(Enemy1 enemy[]){
+    public void enemyMove(Enemy_a1 enemy[]){
         for(int i=0; i<enemy.length; i++){
             if(enemy[i].hp >= 1) {
                 if (enemy[i]._pos._x + enemy[i]._width > 0) {
@@ -87,7 +86,7 @@ public class Enemy1 extends Sprite2D {
         }
     }
 
-    public void EnemyGeneration(Enemy1 enemy[], int _width, int _height, int timer) {
+    public void EnemyGeneration(Enemy_a1 enemy[], int _width, int _height, int timer) {
         number_of_enemies = 0;
         for (int i = 0; i < enemy.length; i++) {
             if (enemy[i].hp_flag) number_of_enemies += 1;
@@ -120,7 +119,7 @@ public class Enemy1 extends Sprite2D {
 
     }
 
-    public void EnemyInit(Enemy1 enemy[], int _width, int _height) {
+    public void EnemyInit(Enemy_a1 enemy[], int _width, int _height) {
         for (int i = 0; i < enemy.length; i++) {
             enemy[i].hp = 0;
             enemy[i].hp_flag = false;
