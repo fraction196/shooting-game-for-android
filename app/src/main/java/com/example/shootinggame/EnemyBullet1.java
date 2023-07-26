@@ -38,7 +38,7 @@ public class EnemyBullet1 extends Sprite2D{
         for (int j = 0; j < enemy.length; j++) {
             for (int i = 0; i < enemybullet[j].length; i++) {
                 if (enemy[j].hp >= 1) {
-                    if (((timer % 100) == 0) && (enemybullet[j][i].hp == 0))
+                    if (((timer % 230) == 0) && (enemybullet[j][i].hp == 0))
                         enemybullet[j][i].hp = -1;
                     if ((enemybullet[j][i].hp == -1) && (!enemybullet[j][i].hp_flag)) {
                         enemybullet[j][i]._pos._x = enemy[j]._pos._x;

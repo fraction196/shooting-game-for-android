@@ -6,7 +6,6 @@ import android.opengl.GLSurfaceView;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 import android.media.SoundPool;
-import java.util.Random;
 
 public class GameMaster implements GLSurfaceView.Renderer
 {
@@ -71,6 +70,10 @@ public class GameMaster implements GLSurfaceView.Renderer
     private Sprite2D hp2_png = new Sprite2D();    //HP2
     private Sprite2D hp3_png = new Sprite2D();    //HP3
     private Sprite2D hp4_png = new Sprite2D();    //HP4
+
+    //アイテム
+    private int Item_number;
+    private Item1 power[] = new Item1[Item_number];
 
     //スコア
     private SpriteText number = new SpriteText();
@@ -206,7 +209,7 @@ public class GameMaster implements GLSurfaceView.Renderer
         }
     }
     private void GameClear(int real_time){
-        if(real_time == 60)gamemode = 3;
+        if(real_time == 50)gamemode = 3;
     }
     private void system_hp_Draw(GL10 gl){
         sys1._pos._x = 40;
@@ -434,16 +437,16 @@ public class GameMaster implements GLSurfaceView.Renderer
         gameclear._texWidth = 1024;
         gameclear._width = 1024 ;
 
-        system1.setTexture(gl,_context.getResources(),R.drawable.sys1);   //システム１
+        system1.setTexture(gl,_context.getResources(),R.drawable.window_sys1);   //システム１
         system1._texWidth = 1024;
         system1._width = 1024 ;
-        system2.setTexture(gl,_context.getResources(),R.drawable.sys2);   //システム2
+        system2.setTexture(gl,_context.getResources(),R.drawable.window_sys2);   //システム2
         system2._texWidth = 1024;
         system2._width = 1024 ;
 
         sys1.setTexture(gl,_context.getResources(),R.drawable.sys1_kari2);//ゲーム画面のシステム
         sys2.setTexture(gl,_context.getResources(),R.drawable.sys2_kari);//ゲーム画面のシステム差分
-        sys3.setTexture(gl,_context.getResources(),R.drawable.sy3_kari);//ゲーム画面のシステム差分
+        sys3.setTexture(gl,_context.getResources(),R.drawable.sys3_kari);//ゲーム画面のシステム差分
         hp1_png.setTexture(gl,_context.getResources(),R.drawable.hp1);
         hp1_png._width += 15;
         hp1_png._height += 15;
@@ -479,9 +482,9 @@ public class GameMaster implements GLSurfaceView.Renderer
 
         for(int i=0; i<enemy1.length; i++){
             enemy1[i] = new Enemy1();
-            enemy1[i].setTexture(gl,_context.getResources(),R.drawable.teki1_50);
+            enemy1[i].setTexture(gl,_context.getResources(),R.drawable.teki_a1);
         }
-        explode.setTexture(gl,_context.getResources(),R.drawable.explode);
+        //explode.setTexture(gl,_context.getResources(),R.drawable.explode);
         //自機弾
         for(int i=0; i<fb_1.length; i++){
             fb_1[i] = new FighterBullet1();
@@ -674,6 +677,7 @@ public class GameMaster implements GLSurfaceView.Renderer
                 if(gameover_bt_title.flag)gameover_bt_title.flag3 = true;
                 break;
             case 4:
+                InitAll();
                 if(system_bt_next.flag)system_bt_next.flag3 = true;
                 if(system_bt_exit.flag)system_bt_exit.flag3 = true;
                 break;
