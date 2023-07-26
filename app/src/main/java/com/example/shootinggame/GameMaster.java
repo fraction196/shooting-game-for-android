@@ -321,55 +321,70 @@ public class GameMaster implements GLSurfaceView.Renderer
     //ボタンを描画する関数
     //タイトル画面
     private void TitleButton(GL10 gl){
-        if(gamemode == 0){
-            if(!title_bt_exit.flag || title_bt_exit.flag3){
-                title_bt_exit._pos._x = 100;
-                title_bt_exit._pos._y = 70;
-                if(title_bt_exit.flag3)System.exit(0);
-            }
-
-            if(title_bt_exit.flag && !title_bt_exit.flag2){
-                title_bt_exit._width -= 40;
-                title_bt_exit._height -= 40;
-                title_bt_exit._pos._x += 20;
-                title_bt_exit._pos._y += 10;
-                title_bt_exit.flag2 = true;
-            }
-
-            if(!title_bt_start.flag || title_bt_start.flag3){
-                title_bt_start._pos._x = 690;
-                title_bt_start._pos._y = 70;
-                if(title_bt_start.flag3){
-                    FlagReset();
-                    title_bt_start._width += 40;
-                    title_bt_start._height += 40;
-                    gamemode = 4;
-                }
-            }
-            if(title_bt_start.flag && !title_bt_start.flag2){
-                title_bt_start._width -= 40;
-                title_bt_start._height -= 40;
-                title_bt_start._pos._x += 20;
-                title_bt_start._pos._y += 10;
-                title_bt_start.flag2 = true;
-            }
-            title_bt_exit.draw(gl);
-            title_bt_start.draw(gl);
+        //「おわる」ボタンについて
+        if(!title_bt_exit.flag || title_bt_exit.flag3){
+            //ボタンの位置設定
+            title_bt_exit._pos._x = 100;
+            title_bt_exit._pos._y = 70;
+            //ボタンが押されたフラグが立っている時
+            if(title_bt_exit.flag3)System.exit(0);
         }
+        //ボタンが押された際に、ボタンサイズを変更し、フラグを立てる
+        if(title_bt_exit.flag && !title_bt_exit.flag2){
+            title_bt_exit._width -= 40;
+            title_bt_exit._height -= 40;
+            title_bt_exit._pos._x += 20;
+            title_bt_exit._pos._y += 10;
+            title_bt_exit.flag2 = true;
+        }
+        //ボタンを描画
+        title_bt_exit.draw(gl);
+
+        //「はじめる」ボタンについて
+        if(!title_bt_start.flag || title_bt_start.flag3){
+            //ボタンの位置設定
+            title_bt_start._pos._x = 690;
+            title_bt_start._pos._y = 70;
+            //ボタンが押されたフラグが立っている時
+            if(title_bt_start.flag3){
+                //ボタンフラグとサイズをリセットする
+                FlagReset();
+                title_bt_start._width += 40;
+                title_bt_start._height += 40;
+                //システム画面へ移動する
+                gamemode = 4;
+            }
+        }
+        //ボタンが押された際に、ボタンサイズを変更し、フラグを立てる
+        if(title_bt_start.flag && !title_bt_start.flag2){
+            title_bt_start._width -= 40;
+            title_bt_start._height -= 40;
+            title_bt_start._pos._x += 20;
+            title_bt_start._pos._y += 10;
+            title_bt_start.flag2 = true;
+        }
+        //ボタンを描画
+        title_bt_start.draw(gl);
     }
     //ゲームクリア＆ゲームオーバー画面
     private void Game_O_C_Button(GL10 gl){
+        //「やりなおす」ボタンについて
         if(!gameover_bt_restart.flag || gameover_bt_restart.flag3){
+            //ボタンの位置設定
             gameover_bt_restart._pos._x = 820;
             gameover_bt_restart._pos._y = 120;
+            //ボタンが押されたフラグが立っている時
             if (gameover_bt_restart.flag3){
+                //スコアとボタンフラグとサイズをリセットする
                 ScoreInit();
                 FlagReset();
                 gameover_bt_restart._width += 40;
                 gameover_bt_restart._height += 40;
+                //ゲーム画面へ移動する
                 gamemode = 1;
             }
         }
+        //ボタンが押された際に、ボタンサイズを変更し、フラグを立てる
         if(gameover_bt_restart.flag && !gameover_bt_restart.flag2){
             gameover_bt_restart._width -= 40;
             gameover_bt_restart._height -= 40;
@@ -377,16 +392,25 @@ public class GameMaster implements GLSurfaceView.Renderer
             gameover_bt_restart._pos._y += 10;
             gameover_bt_restart.flag2 = true;
         }
+        //ボタンを描画
+        gameover_bt_restart.draw(gl);
+
+        //「タイトルへ」ボタンについて
         if(!gameover_bt_title.flag || gameover_bt_title.flag3){
+            //ボタンの位置設定
             gameover_bt_title._pos._x = 1520;
             gameover_bt_title._pos._y = 120;
+            //ボタンが押されたフラグが立っている時
             if (gameover_bt_title.flag3){
+                //ボタンフラグとサイズをリセットする
                 FlagReset();
                 gameover_bt_title._width += 40;
                 gameover_bt_title._height += 40;
+                //タイトル画面へ移動する
                 gamemode = 0;
             }
         }
+        //ボタンが押された際に、ボタンサイズを変更し、フラグを立てる
         if(gameover_bt_title.flag && !gameover_bt_title.flag2){
             gameover_bt_title._width -= 40;
             gameover_bt_title._height -= 40;
@@ -394,22 +418,28 @@ public class GameMaster implements GLSurfaceView.Renderer
             gameover_bt_title._pos._y += 10;
             gameover_bt_title.flag2 = true;
         }
-        gameover_bt_restart.draw(gl);
+        //ボタンを描画
         gameover_bt_title.draw(gl);
     }
     //システム画面（システムウインドウ）
     private void SystemButton(GL10 gl){
+        //「つぎへ」ボタンが押される前の時
         if(!system_bt_next.flag4) {
+            //「つぎへ」ボタンについて
             if (!system_bt_next.flag || system_bt_next.flag3) {
+                //ボタンの位置設定
                 system_bt_next._pos._x = 1740;
                 system_bt_next._pos._y = 150;
+                //ボタンが押されたフラグが立っている時
                 if (system_bt_next.flag3){
+                    //ボタンフラグとサイズをリセットする
                     system_bt_next._width += 20;
                     system_bt_next._height += 20;
+                    //「つぎへ」ボタンが押されたフラグを立てる
                     system_bt_next.flag4 = true;
                 }
             }
-
+            //ボタンが押された際に、ボタンサイズを変更し、フラグを立てる
             if (system_bt_next.flag && !system_bt_next.flag2) {
                 system_bt_next._width -= 20;
                 system_bt_next._height -= 20;
@@ -417,22 +447,28 @@ public class GameMaster implements GLSurfaceView.Renderer
                 system_bt_next._pos._y += 5;
                 system_bt_next.flag2 = true;
             }
+            //ボタンを描画
             system_bt_next.draw(gl);
-            //system_bt_exit.draw(gl);
         }
+        //「つぎへ」ボタンが押さた後の時
         if(system_bt_next.flag4){
+            //「とじる」ボタンについて
             if (!system_bt_exit.flag || system_bt_exit.flag3) {
+                //ボタンの位置設定
                 system_bt_exit._pos._x = 1740;
                 system_bt_exit._pos._y = 150;
+                //ボタンが押されたフラグが立っている時
                 if (system_bt_exit.flag3) {
+                    //スコアとボタンフラグとサイズをリセットする
                     FlagReset();
                     ScoreInit();
                     system_bt_exit._width += 20;
                     system_bt_exit._height += 20;
+                    //ゲーム画面へ移動する
                     gamemode = 1;
                 }
             }
-
+            //ボタンが押された際に、ボタンサイズを変更し、フラグを立てる
             if (system_bt_exit.flag && !system_bt_exit.flag2) {
                 system_bt_exit._width -= 20;
                 system_bt_exit._height -= 20;
@@ -440,10 +476,9 @@ public class GameMaster implements GLSurfaceView.Renderer
                 system_bt_exit._pos._y += 5;
                 system_bt_exit.flag2 = true;
             }
-            //system_bt_next.draw(gl);
+            //ボタンを描画
             system_bt_exit.draw(gl);
         }
-
     }
 
     //背景を移動する関数
@@ -608,10 +643,17 @@ public class GameMaster implements GLSurfaceView.Renderer
         fighter.FighterInit(fighter);
         //自機弾の初期化
         fb_1[0].FighterBulletInit(fb_1,_width,_height);
+
         //敵関連の初期化
+        //敵a1
         enemy1[0].EnemyInit(enemy1,_width,_height);
+        //敵a2
+        enemy_a2[0].EnemyInit(enemy_a2,_width,_height);
+
         //敵弾関連の初期化
+        //敵弾a1_eb1
         eb_1[0][0].EnemyBulletInit(enemy1,eb_1,_width,_height);
+        //敵弾a2_eb2
     }
     //このクラスの変数の初期化
     public void init(){
