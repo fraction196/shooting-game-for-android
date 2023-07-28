@@ -1,5 +1,5 @@
 /*
- *　敵のクラス
+ *　敵の生成、移動、描画を行うクラス
  */
 
 package com.example.shootinggame;

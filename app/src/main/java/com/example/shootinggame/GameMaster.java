@@ -153,7 +153,7 @@ public class GameMaster implements GLSurfaceView.Renderer
                     //敵a1
                         for(int i = 0; i < enemy1.length; i++){
                             //衝突判定を行う
-                            CC.ObjectCollisionCheck(fb_1, enemy1[i],score);
+                            CC.FighterBulletCollisionCheck(fb_1, enemy1[i]);
                             //スコアフラグが立っているとき
                             if(enemy1[i].score_flag){
                                 //スコアを加算し、フラグを下ろす
@@ -163,7 +163,7 @@ public class GameMaster implements GLSurfaceView.Renderer
                         }
                     //敵a2
                         for(int i = 0; i < enemy_a2.length; i++){
-                            CC.ObjectCollisionCheck(fb_1, enemy_a2[i],score);
+                            CC.FighterBulletCollisionCheck(fb_1, enemy_a2[i]);
                             if(enemy_a2[i].score_flag){
                                 score += 200;
                                 enemy_a2[i].score_flag = false;
