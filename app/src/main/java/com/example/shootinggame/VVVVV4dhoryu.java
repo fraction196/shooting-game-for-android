@@ -64,3 +64,97 @@ if((fighterbullet[i].hp == -1)&&(number_of_enemies<4)){
     }
 
      */
+//弾関係
+//private static final int fighterbullet_number = 15;  //自機弾の数
+//private Sprite2D[] fighterbullet = new Sprite2D[fighterbullet_number];  //自機の弾
+//public int fighterbullet_on = 1;
+
+
+    /*
+    //自機弾を発射するクラス
+    public void FighterBulletMove(FighterBullet1 fighterbullet[],int _width){
+        for (int i = 0; i < fighterbullet.length; i++) {
+            if(fighterbullet[i].hp == 1) {
+                if (fighterbullet[i]._pos._x < _width) {
+                    fighterbullet[i]._pos._x += 9;
+                } else {
+                    fighterbullet[i].hp = 0;
+                    fighterbullet[i].hp_flag = false;
+                }
+
+            }
+        }
+    }
+
+    //自機弾の描画
+    public void FighterBulletDraw(FighterBullet1 fighterbullet[],GL10 gl){
+        for(int i = 0;i< fighterbullet.length; i++){
+            if(fighterbullet[i].hp == 1)fighterbullet[i].draw(gl);
+        }
+    }
+    //自機弾の生成
+    public void FighterBulletGeneration(FighterBullet1 fb_1[],int timer) {
+        for (int i = 0; i < fb_1.length; i++) {
+            if(((timer%50)==0)&&(fb_1[i].hp==0)){
+                fb_1[i].hp = -1;
+            }
+            if((fb_1[i].hp == -1)&&(!(fb_1[i].hp_flag))){
+                //fighterbullet[i]._pos._x = fighter._pos._x + fighter_width;
+                //fighterbullet[i]._pos._y = fighter._pos._y + (fighter_height/2);
+                fb_1[i].hp_flag = true;
+                fb_1[i].hp = 1;
+                System.out.println("HP"+i+" "+fb_1[i].hp);
+                System.out.println("HP"+i+" "+fb_1[i].hp_flag);
+
+                break;
+            }
+        }
+    }
+
+     */
+    /*
+    public void EnemyBulletMove(Enemy_a1 enemy[], EnemyBullet1 enemybullet[][]){
+        for (int j = 0; j < enemy.length; j++) {
+            for (int i = 0; i < enemybullet[j].length; i++) {
+                if (enemybullet[j][i].hp == 1) {
+                    if (enemybullet[j][i]._pos._x > 0) {
+                        enemybullet[j][i]._pos._x -= 9;
+                    } else {
+                        enemybullet[j][i].hp = 0;
+                        enemybullet[j][i].hp_flag = false;
+                    }
+                    //System.out.println("HP"+i+" "+fighterbullet[i].hp);
+                }
+            }
+        }
+    }
+
+
+    //敵弾の描画
+    public void EnemyBulletDraw(Enemy_a1 enemy[], EnemyBullet1 enemybullet[][], GL10 gl){
+        for (int j = 0; j < enemy.length; j++) {
+            for (int i = 0; i < enemybullet[j].length; i++) {
+                if (enemybullet[j][i].hp == 1) enemybullet[j][i].draw(gl);
+            }
+        }
+    }
+    //敵弾の生成
+    public void EnemyBulletGeneration(Enemy_a1 enemy[], EnemyBullet1 enemybullet[][], int timer) {
+        for (int j = 0; j < enemy.length; j++) {
+            for (int i = 0; i < enemybullet[j].length; i++) {
+                if (enemy[j].hp >= 1) {
+                    if (((timer % 230) == 0) && (enemybullet[j][i].hp == 0))
+                        enemybullet[j][i].hp = -1;
+                    if ((enemybullet[j][i].hp == -1) && (!enemybullet[j][i].hp_flag)) {
+                        enemybullet[j][i]._pos._x = enemy[j]._pos._x;
+                        enemybullet[j][i]._pos._y = enemy[j]._pos._y + (enemy[j]._height / 2) - (enemybullet[j][i]._height / 2);
+                        enemybullet[j][i].hp_flag = true;
+                        enemybullet[j][i].hp = 1;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+     */

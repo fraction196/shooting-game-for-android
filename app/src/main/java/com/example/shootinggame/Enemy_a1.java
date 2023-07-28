@@ -22,9 +22,6 @@ public class Enemy_a1 extends Sprite2D {
     private boolean enemyflag = false;
     private int teki_y;
     public int enemy1_hp = 3; //敵1の体力
-    //public boolean invincible_time = false; //無敵時間
-    //public int invincible_switch = 0; //無敵時間
-    //public int invincible_count = 0;
 
     public void enemyDraw(Enemy_a1 enemy[], GL10 gl){
         for(int i = 0;i< enemy.length; i++){

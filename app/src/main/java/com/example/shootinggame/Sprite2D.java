@@ -18,39 +18,39 @@ import javax.microedition.khronos.opengles.GL11Ext;
 public class Sprite2D
 {
 	//モデルの可視不可視を保持する変数
-    public boolean _visible = true;
+		public boolean _visible = true;
 	//テクスチャID番号
-    public int _textureNo;
+		public int _textureNo;
 	//配置する位置
-    public Vector3D _pos = new Vector3D(0,0,0);
+		public Vector3D _pos = new Vector3D(0,0,0);
 	//配置する幅
-    public float _width;
+		public float _width;
  	//配置する高さ
-    public float _height;
+		public float _height;
 	//テクスチャでのx座標
-    public int _texX;
+		public int _texX;
 	//テクスチャでのy座標
-    public int _texY;
+		public int _texY;
 	//テクスチャでの幅
-    public int _texWidth;
+		public int _texWidth;
 	//テクスチャでの高さ
-    public int _texHeight;
+		public int _texHeight;
 
 	//移動オブジェクトに使用する変数
-	//体力と体力フラグ
-	public int hp = 0;
-	public boolean hp_flag = false;
-	//スコアフラグ
-	public boolean score_flag = false;
-	//汎用的に用いるフラグ
-	public boolean flag = false;
-	public boolean flag2 = false;
-	public boolean flag3 = false;
-	public boolean flag4 = false;
-	//無敵時間に関する変数
-	public boolean invincible_time = false;
-	public int invincible_switch = 0;
-	public int invincible_count = 0;
+		//体力と体力フラグ
+			public int hp = 0;
+			public boolean hp_flag = false;
+		//スコアフラグ
+			public boolean score_flag = false;
+		//汎用的に用いるフラグ
+			public boolean flag = false;
+			public boolean flag2 = false;
+			public boolean flag3 = false;
+			public boolean flag4 = false;
+		//無敵時間に関する変数
+			public boolean invincible_time = false; //無敵時間のフラグ
+			public int invincible_switch = 0;		//点滅の間隔を決める変数
+			public int invincible_count = 0;		//無敵時間を長さを決める変数
 	//public int number = 0;
 
 	//テクスチャを読み込んでセットする関数
