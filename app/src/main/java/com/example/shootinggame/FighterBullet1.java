@@ -17,7 +17,7 @@ public class FighterBullet1 extends Sprite2D{
                         //HPの値を変更する（発射待ち状態へ）
                             fb_1[i].hp = -1;
                     }
-                //発射待ち状態であり、生存フラグが立っているとき
+                //発射待ち状態であり、生存フラグが立っていない時
                     if((fb_1[i].hp == -1)&&(!(fb_1[i].hp_flag))){
                         //初期位置を自機に合わせる
                             fb_1[i]._pos._x = fighter._pos._x + fighter.fighter_width;

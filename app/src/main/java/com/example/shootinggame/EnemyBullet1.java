@@ -20,7 +20,7 @@ public class EnemyBullet1 extends Sprite2D{
                                 //HPの値を変更する（発射待ち状態へ）
                                 enemybullet[j][i].hp = -1;
                             }
-                        //発射待ち状態であり、生存フラグが立っているとき
+                        //発射待ち状態であり、生存フラグが立っていないとき
                             if ((enemybullet[j][i].hp == -1) && (!enemybullet[j][i].hp_flag)) {
                                 //初期位置を対応する敵に合わせる
                                     enemybullet[j][i]._pos._x = enemy[j]._pos._x;

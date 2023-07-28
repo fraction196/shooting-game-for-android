@@ -42,9 +42,9 @@ public class GameMaster implements GLSurfaceView.Renderer
     //敵全体
         private static final int enemybullet_number = 30;  //敵弾数
     //敵a1
-        private static final int enemy1_number = 10;  //敵１の数
-        private Enemy_a1 enemy1[] = new Enemy_a1[enemy1_number];  //敵
-        private EnemyBullet1[][] eb_1 = new EnemyBullet1[enemy1_number][enemybullet_number];  //敵１の弾
+        private static final int enemy_a1_number = 10;  //敵１の数
+        private Enemy_a1 enemy1[] = new Enemy_a1[enemy_a1_number];  //敵
+        private EnemyBullet1[][] eb_1 = new EnemyBullet1[enemy_a1_number][enemybullet_number];  //敵１の弾
     //敵a2
         private static final int enemy_a2_number = 10;  //敵１の数
         private Enemy_a2 enemy_a2[] = new Enemy_a2[enemy_a2_number];  //敵
@@ -139,9 +139,7 @@ public class GameMaster implements GLSurfaceView.Renderer
 
                 //敵の描画
                     //敵a1
-                        enemy1[0].EnemyGeneration(enemy1,_width,_height,timer);
-                        enemy1[0].enemyMove(enemy1);
-                        enemy1[0].enemyDraw(enemy1,gl);
+                        enemy1[0].Enemy_a1_GMD(enemy1,gl,timer,_width,_height);
                     //敵a2
                         enemy_a2[0].EnemyGeneration(enemy_a2,_width,_height,timer);
                         enemy_a2[0].enemyMove(enemy_a2);
