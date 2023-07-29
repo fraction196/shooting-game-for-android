@@ -7,6 +7,7 @@ package com.example.shootinggame;
 import java.util.Random;
 
 import javax.microedition.khronos.opengles.GL10;
+import java.util.Random;
 
 public class Enemy_b1 extends Sprite2D {
     //敵の数
@@ -16,7 +17,7 @@ public class Enemy_b1 extends Sprite2D {
     //画面に存在する敵の数を数える変数
         public int number_of_enemies  = 0;
     //敵の速さ
-        public int enemy_x_speed = 4;
+        public int enemy_x_speed = 8;
     //敵の角度
         public int enemy_angle[] = new int[enemy_a1_number];
     //敵の初期のy座標
@@ -43,9 +44,9 @@ public class Enemy_b1 extends Sprite2D {
         //出現頻度をランダムにする際のランダムの幅
             private int random_width = 81;
         //出現頻度をランダムにする際の基準値（最低値）
-            private int random_MIN = 100;
+            private int random_MIN = 300;
     //敵の体力
-        public int enemy_a1_hp = 5;
+        public int enemy_a1_hp = 2;
     //private Vector2D[] teki_movement = new Vector2D[enemy_number];
     //private boolean enemyflag = false;
     //private int teki_y;
@@ -110,10 +111,11 @@ public class Enemy_b1 extends Sprite2D {
                     if(enemy[i].hp >= 1) {
                         //画面に収まっているとき
                             if (enemy[i]._pos._x + enemy[i]._width > 0) {
+                                //ランダム変数の作成
+                                    Random r1 = new Random();
                                 //移動させる
                                     enemy[i]._pos._x -= enemy_x_speed;
-                                    //enemy[i]._pos._y += teki_angle[i] + teki_movement[i]._y;
-                                    enemy[i]._pos._y += 0;
+                                    enemy[i]._pos._y += r1.nextInt(41)-20;
                         } else {
                             //画面外のときはHPと生存フラグをオフに
                                 enemy[i].hp = 0;

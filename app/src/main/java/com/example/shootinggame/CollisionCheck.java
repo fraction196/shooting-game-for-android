@@ -41,6 +41,9 @@ public class CollisionCheck {
                                     obj2[j][i].hp_flag = false;
                                     obj2[j][i].u_flag = false;
                                     obj2[j][i].d_flag = false;
+                                    obj2[j][i].w_flag = false;
+                                    obj2[j][i].n_w_flag = false;
+                                    obj2[j][i].s_w_flag = false;
                             }
                     }
             }

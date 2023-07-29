@@ -20,7 +20,7 @@ public class EnemyBullet5 extends Sprite2D{
                                 //HPの値を変更する（発射待ち状態へ）
                                 enemybullet[j][i].hp = -1;
                             }
-                            if ((enemy[j].eb_count == 1) && (enemybullet[j][i].hp == 0))enemybullet[j][i].hp = -1;
+                            if ((enemy[j].eb_count >= 1) && (enemybullet[j][i].hp == 0))enemybullet[j][i].hp = -1;
                             //発射待ち状態であり、生存フラグが立っていないとき
                             if ((enemybullet[j][i].hp == -1) && (!enemybullet[j][i].hp_flag)) {
                                 //初期位置を対応する敵に合わせる
@@ -36,10 +36,24 @@ public class EnemyBullet5 extends Sprite2D{
                                 }
                                 if (enemy[j].eb_count == 1) {
                                     enemybullet[j][i].d_flag = true;
-                                    enemy[j].eb_count -= 1;
+                                    enemy[j].eb_count += 1;
                                     break;
                                 }
-
+                                if (enemy[j].eb_count == 2) {
+                                    enemybullet[j][i].w_flag = true;
+                                    enemy[j].eb_count += 1;
+                                    break;
+                                }
+                                if (enemy[j].eb_count == 3) {
+                                    enemybullet[j][i].n_w_flag = true;
+                                    enemy[j].eb_count += 1;
+                                    break;
+                                }
+                                if (enemy[j].eb_count == 4) {
+                                    enemybullet[j][i].s_w_flag = true;
+                                    enemy[j].eb_count = 0;
+                                    break;
+                                }
                             }
                     }
                 }
@@ -52,13 +66,12 @@ public class EnemyBullet5 extends Sprite2D{
                             //画面に収まっているとき
                                 if (enemybullet[j][i]._pos._x > 0) {
                                     //移動させる
-                                        enemybullet[j][i]._pos._x -= 9;
-                                        if(enemybullet[j][i].u_flag){
-                                            enemybullet[j][i]._pos._y += 5;
-                                        }
-                                        if(enemybullet[j][i].d_flag){
-                                            enemybullet[j][i]._pos._y -= 5;
-                                        }
+                                        enemybullet[j][i]._pos._x -= 6;
+                                        if(enemybullet[j][i].w_flag)enemybullet[j][i]._pos._y += 0;
+                                        if(enemybullet[j][i].n_w_flag)enemybullet[j][i]._pos._y += 2;
+                                        if(enemybullet[j][i].s_w_flag)enemybullet[j][i]._pos._y -= 2;
+                                        if(enemybullet[j][i].u_flag)enemybullet[j][i]._pos._y += 5;
+                                        if(enemybullet[j][i].d_flag)enemybullet[j][i]._pos._y -= 5;
                                 } else {
                                     //画面外のときはHPと生存フラグをオフに
                                         enemybullet[j][i].hp = 0;
@@ -90,6 +103,9 @@ public class EnemyBullet5 extends Sprite2D{
                 //フラグの初期化
                     enemybullet[j][i].u_flag = false;
                     enemybullet[j][i].d_flag = false;
+                    enemybullet[j][i].w_flag = false;
+                    enemybullet[j][i].n_w_flag = false;
+                    enemybullet[j][i].s_w_flag = false;
 
             }
         }

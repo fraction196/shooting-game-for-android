@@ -52,7 +52,7 @@ public class EnemyBullet2 extends Sprite2D{
                             //画面に収まっているとき
                                 if (enemybullet[j][i]._pos._x > 0) {
                                     //移動させる
-                                        enemybullet[j][i]._pos._x -= 9;
+                                        enemybullet[j][i]._pos._x -= 11;
                                         if(enemybullet[j][i].u_flag){
                                             enemybullet[j][i]._pos._y += 5;
                                         }

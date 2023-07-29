@@ -10,8 +10,8 @@ public class Fighter extends Sprite2D{
     //ドラッグの移動量
         public Vector2D amount_of_movement = new Vector2D(0,0);
     //自機のサイズ
-        public static final int fighter_width = 190;
-        public static final int fighter_height = 190;
+        public static final int fighter_width = 120;
+        public static final int fighter_height = 120;
     //自機の速さ
         public float fighter_speed = 1.5f;
     //自機の体力

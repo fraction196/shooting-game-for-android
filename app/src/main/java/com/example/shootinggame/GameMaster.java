@@ -40,7 +40,7 @@ public class GameMaster implements GLSurfaceView.Renderer
         //public int fighterbullet_on = 1;
 
     //敵全体
-        private static final int enemybullet_number = 50;  //敵弾数
+        private static final int enemybullet_number = 100;  //敵弾数
     //敵の生成
         private EnemyGenerationCheck EGC = new EnemyGenerationCheck();
     //敵a1
@@ -56,11 +56,11 @@ public class GameMaster implements GLSurfaceView.Renderer
         private Enemy_a3 enemy_a3[] = new Enemy_a3[enemy_a3_number];  //敵
         private EnemyBullet3[][] eb_3 = new EnemyBullet3[enemy_a3_number][enemybullet_number];  //敵a3の弾
     //敵b1
-        private static final int enemy_b1_number = 10;  //敵１の数
+        private static final int enemy_b1_number = 10;  //敵b1の数
         private Enemy_b1 enemy_b1[] = new Enemy_b1[enemy_b1_number];  //敵
         private EnemyBullet4[][] eb_4 = new EnemyBullet4[enemy_b1_number][enemybullet_number];  //敵a3の弾
     //敵c1
-        private static final int enemy_c1_number = 10;  //敵１の数
+        private static final int enemy_c1_number = 10;  //敵c1の数
         private Enemy_c1 enemy_c1[] = new Enemy_c1[enemy_c1_number];  //敵
         private EnemyBullet5[][] eb_5 = new EnemyBullet5[enemy_c1_number][enemybullet_number];  //敵a3の弾
     //画面画像
@@ -154,17 +154,17 @@ public class GameMaster implements GLSurfaceView.Renderer
                     //敵の出現範囲チェック
                         EGC.EnemyGenerationCheck1(enemy_a1,enemy_a2,_width);
                     //敵a1
-                        if(timer<=900)enemy_a1[0].Enemy_a1_GMD(enemy_a1,gl,timer,_width,_height,EGC);
+                        if(timer >= 0)enemy_a1[0].Enemy_a1_GMD(enemy_a1,gl,timer,_width,_height,EGC);
                     //敵の出現範囲チェック
                         EGC.EnemyGenerationCheck1(enemy_a1,enemy_a2,_width);
                     //敵a2
-                        if(timer >= 300)enemy_a2[0].Enemy_a2_GMD(enemy_a2,gl,timer-300,_width,_height,EGC);
+                        if(timer >= 400)enemy_a2[0].Enemy_a2_GMD(enemy_a2,gl,timer-400,_width,_height,EGC);
                     //敵a3
-                        if(timer >= 600)enemy_a3[0].Enemy_a3_GMD(enemy_a3,gl,timer-600,_width,_height,EGC);
+                        if(timer >= 1000)enemy_a3[0].Enemy_a3_GMD(enemy_a3,gl,timer-1000,_width,_height,EGC);
                     //敵b1
-                        if(timer >= 900)enemy_b1[0].Enemy_b1_GMD(enemy_b1,gl,timer-900,_width,_height,EGC);
+                        if(timer >= 1500)enemy_b1[0].Enemy_b1_GMD(enemy_b1,gl,timer-1500,_width,_height,EGC);
                     //敵c1
-
+                        if(timer >= 2200)enemy_c1[0].Enemy_c1_GMD(enemy_c1,gl,timer-2200,_width,_height,EGC);
                 //自機弾
                     //自機弾１
                         fb_1[0].FighterBullet1_GMD(fighter,fb_1,gl,timer,_width);
@@ -183,47 +183,59 @@ public class GameMaster implements GLSurfaceView.Renderer
                         }
                     //敵a2
                         for(int i = 0; i < enemy_a2.length; i++){
+                            //衝突判定を行う
                             CC.FighterBulletCollisionCheck(fb_1, enemy_a2[i]);
+                            //スコアフラグが立っているとき
                             if(enemy_a2[i].score_flag){
+                                //スコアを加算し、フラグを下ろす
                                 score += 300;
                                 enemy_a2[i].score_flag = false;
                             }
                         }
                     //敵a3
                         for(int i = 0; i < enemy_a3.length; i++){
-                                CC.FighterBulletCollisionCheck(fb_1, enemy_a3[i]);
+                            //衝突判定を行う
+                            CC.FighterBulletCollisionCheck(fb_1, enemy_a3[i]);
+                            //スコアフラグが立っているとき
                                 if(enemy_a3[i].score_flag){
+                                    //スコアを加算し、フラグを下ろす
                                     score += 500;
                                     enemy_a3[i].score_flag = false;
                                 }
                             }
                     //敵b1
                         for(int i = 0; i < enemy_b1.length; i++){
+                            //衝突判定を行う
                             CC.FighterBulletCollisionCheck(fb_1, enemy_b1[i]);
-                            if(enemy_b1[i].score_flag){
-                                score += 1000;
-                                enemy_b1[i].score_flag = false;
-                            }
+                            //スコアフラグが立っているとき
+                                if(enemy_b1[i].score_flag){
+                                    //スコアを加算し、フラグを下ろす
+                                    score += 1000;
+                                    enemy_b1[i].score_flag = false;
+                                }
                         }
-                    //敵b1
+                    //敵c1
                         for(int i = 0; i < enemy_c1.length; i++){
+                            //衝突判定を行う
                             CC.FighterBulletCollisionCheck(fb_1, enemy_c1[i]);
-                            if(enemy_c1[i].score_flag){
-                                score += 1000;
-                                enemy_c1[i].score_flag = false;
-                            }
+                            //スコアフラグが立っているとき
+                                if(enemy_c1[i].score_flag){
+                                    //スコアを加算し、フラグを下ろす
+                                    score += 2000;
+                                    enemy_c1[i].score_flag = false;
+                                }
                         }
                 //敵の弾丸
                     //敵a1-1
-                        if(timer<=900)eb_1[0][0].EnemyBullet1_GMD(enemy_a1,eb_1,gl,timer);
+                        if(timer>=0)eb_1[0][0].EnemyBullet1_GMD(enemy_a1,eb_1,gl,timer);
                     //敵a2-2
-                        if(timer>= 300)eb_2[0][0].EnemyBullet2_GMD(enemy_a2,eb_2,gl,timer-300);
+                        if(timer>= 400)eb_2[0][0].EnemyBullet2_GMD(enemy_a2,eb_2,gl,timer-400);
                     //敵a3-3
-                        if(timer>= 600)eb_3[0][0].EnemyBullet3_GMD(enemy_a3,eb_3,gl,timer-600);
+                        if(timer>= 1000)eb_3[0][0].EnemyBullet3_GMD(enemy_a3,eb_3,gl,timer-1000);
                     //敵b1-4
-                        if(timer>= 900)eb_4[0][0].EnemyBullet4_GMD(enemy_b1,eb_4,gl,timer-900);
+                        if(timer>= 1500)eb_4[0][0].EnemyBullet4_GMD(enemy_b1,eb_4,gl,timer-1500);
                     //敵c1-5
-                        if(timer>= 0)eb_4[0][0].EnemyBullet4_GMD(enemy_b1,eb_4,gl,timer-0);
+                        if(timer>= 2200)eb_5[0][0].EnemyBullet5_GMD(enemy_c1,eb_5,gl,timer-2200);
 
                 //自機の描画
                     fighter.FighterMove(fighter,_width,_height);
@@ -236,27 +248,27 @@ public class GameMaster implements GLSurfaceView.Renderer
                             fighter.draw(gl);
                             //衝突判定
                                 //敵a1と敵弾1
-                                    if(timer<=900){
+                                    if(timer>=0){
                                         CC.FighterCollisionCheck(enemy_a1,fighter);
                                         CC.FighterCollisionCheck2(enemy_a1,eb_1,fighter);
                                     }
                                 //敵a2と敵弾2
-                                    if(timer >= 300){
+                                    if(timer >= 400){
                                         CC.FighterCollisionCheck(enemy_a2,fighter);
                                         CC.FighterCollisionCheck2(enemy_a2,eb_2,fighter);
                                     }
                                 //敵a3と敵弾3
-                                    if(timer >= 600) {
+                                    if(timer >= 1000) {
                                         CC.FighterCollisionCheck(enemy_a3, fighter);
                                         CC.FighterCollisionCheck2(enemy_a3, eb_3, fighter);
                                     }
                                 //敵b1と敵弾4
-                                    if(timer >= 900) {
+                                    if(timer >= 1500) {
                                         CC.FighterCollisionCheck(enemy_b1, fighter);
                                         CC.FighterCollisionCheck2(enemy_b1, eb_4, fighter);
                                     }
                                 //敵c1と敵弾5
-                                    if(timer >= 0) {
+                                    if(timer >= 2200) {
                                         CC.FighterCollisionCheck(enemy_c1, fighter);
                                         CC.FighterCollisionCheck2(enemy_c1, eb_5, fighter);
                                     }
@@ -320,10 +332,14 @@ public class GameMaster implements GLSurfaceView.Renderer
         //ゲーム画面の時
             if(gamemode == 1) {
                 //スコア描画
+                    score_png._height = 512;
+                    score_png._width = 512;
                     score_png._pos._x = 750;
                     score_png._pos._y = 975;
                     score_png.draw(gl);
                 //数字描画
+                    number._height = 80;
+                    number._width = 60;
                     number._pos._x = 980;
                     number._pos._y = 975;
                     number.draw(gl,score,1);
@@ -347,7 +363,7 @@ public class GameMaster implements GLSurfaceView.Renderer
 
     //ゲームクリアを判定する関数
     private void GameClear(int real_time){
-        if(real_time == 50)gamemode = 3;
+        //if(real_time == 45)gamemode = 3;
     }
 
     //ゲーム中のシステム画面と自機の体力を表示する関数
@@ -687,8 +703,8 @@ public class GameMaster implements GLSurfaceView.Renderer
         //自機関係
             //自機とサイズ設定
                 fighter.setTexture(gl,_context.getResources(),R.drawable.fighter2);
-                fighter._width = 190;
-                fighter._height = 190;
+                fighter._width = 120;
+                fighter._height = 120;
 
         //自機弾関係
             //自機弾１
@@ -748,8 +764,8 @@ public class GameMaster implements GLSurfaceView.Renderer
                     for (int i = 0; i < eb_3[j].length; i++) {
                         eb_3[j][i] = new EnemyBullet3();
                         eb_3[j][i].setTexture(gl, _context.getResources(), R.drawable.eb_3);
-                        eb_3[j][i]._height = 40;
-                        eb_3[j][i]._width = 40;
+                        eb_3[j][i]._height = 70;
+                        eb_3[j][i]._width = 70;
                     }
                 }
             //敵弾b1_4
@@ -757,8 +773,8 @@ public class GameMaster implements GLSurfaceView.Renderer
                     for (int i = 0; i < eb_4[j].length; i++) {
                         eb_4[j][i] = new EnemyBullet4();
                         eb_4[j][i].setTexture(gl, _context.getResources(), R.drawable.eb_5);
-                        eb_4[j][i]._height = 60;
-                        eb_4[j][i]._width = 120;
+                        eb_4[j][i]._height = 100;
+                        eb_4[j][i]._width = 200;
                     }
                 }
             //敵弾c1_5

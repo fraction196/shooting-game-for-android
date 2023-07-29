@@ -43,7 +43,7 @@ public class EnemyBullet4 extends Sprite2D{
                                     //ランダム変数の作成
                                         Random r1 = new Random();
                                     //移動させる
-                                        enemybullet[j][i]._pos._x -= 15;
+                                        enemybullet[j][i]._pos._x -= 16;
                                         enemybullet[j][i]._pos._y += r1.nextInt(81)-40;
                                 } else {
                                     //画面外のときはHPと生存フラグをオフに

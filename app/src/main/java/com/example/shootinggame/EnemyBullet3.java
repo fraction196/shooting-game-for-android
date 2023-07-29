@@ -52,12 +52,12 @@ public class EnemyBullet3 extends Sprite2D{
                             //画面に収まっているとき
                                 if (enemybullet[j][i]._pos._x > 0) {
                                     //移動させる
-                                        enemybullet[j][i]._pos._x -= 9;
+                                        enemybullet[j][i]._pos._x -= 8;
                                         if(enemybullet[j][i].u_flag){
-                                            enemybullet[j][i]._pos._y += 5;
+                                            enemybullet[j][i]._pos._y += 2;
                                         }
                                         if(enemybullet[j][i].d_flag){
-                                            enemybullet[j][i]._pos._y -= 5;
+                                            enemybullet[j][i]._pos._y -= 2;
                                         }
                                 } else {
                                     //画面外のときはHPと生存フラグをオフに

@@ -41,6 +41,12 @@ public class Sprite2D
 			public int eb_count = 0;
 			public boolean u_flag = false;
 			public boolean d_flag = false;
+			public boolean w_flag = false;
+			public boolean n_w_flag = false;
+			public boolean s_w_flag = false;
+			public boolean e_flag = false;
+			public boolean n_e_flag = false;
+			public boolean s_e_flag = false;
 		//体力と体力フラグ
 			public int hp = 0;
 			public boolean hp_flag = false;

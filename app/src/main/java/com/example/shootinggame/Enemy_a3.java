@@ -16,7 +16,7 @@ public class Enemy_a3 extends Sprite2D {
     //画面に存在する敵の数を数える変数
     public int number_of_enemies  = 0;
     //敵の速さ
-    public int enemy_x_speed = 4;
+    public int enemy_x_speed = 3;
     //敵の角度
     public int enemy_angle[] = new int[enemy_a2_number];
     //敵の初期のy座標
@@ -43,7 +43,7 @@ public class Enemy_a3 extends Sprite2D {
     //出現頻度をランダムにする際のランダムの幅
     private int random_width = 161;
     //出現頻度をランダムにする際の基準値（最低値）
-    private int random_MIN = 200;
+    private int random_MIN = 300;
     //敵の体力
     public int enemy_a1_hp = 3;
     //private Vector2D[] teki_movement = new Vector2D[enemy_number];
