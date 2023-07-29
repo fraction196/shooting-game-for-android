@@ -36,6 +36,11 @@ public class CollisionCheck {
                                 //自機の体力を減らし無敵時間のフラグを立てる
                                     fighter.hp -= 1;
                                     fighter.invincible_time = true;
+                                //敵弾の体力を減らしフラグを下ろす
+                                    obj2[j][i].hp -= 1;
+                                    obj2[j][i].hp_flag = false;
+                                    obj2[j][i].u_flag = false;
+                                    obj2[j][i].d_flag = false;
                             }
                     }
             }

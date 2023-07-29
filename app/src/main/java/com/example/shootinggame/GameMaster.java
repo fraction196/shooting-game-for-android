@@ -40,17 +40,23 @@ public class GameMaster implements GLSurfaceView.Renderer
         //public int fighterbullet_on = 1;
 
     //敵全体
-        private static final int enemybullet_number = 30;  //敵弾数
+        private static final int enemybullet_number = 50;  //敵弾数
     //敵の生成
         private EnemyGenerationCheck EGC = new EnemyGenerationCheck();
     //敵a1
         private static final int enemy_a1_number = 10;  //敵１の数
         private Enemy_a1 enemy_a1[] = new Enemy_a1[enemy_a1_number];  //敵
-        private EnemyBullet1[][] eb_1 = new EnemyBullet1[enemy_a1_number][enemybullet_number];  //敵１の弾
+        private EnemyBullet1[][] eb_1 = new EnemyBullet1[enemy_a1_number][enemybullet_number];  //敵a1の弾
     //敵a2
         private static final int enemy_a2_number = 10;  //敵１の数
         private Enemy_a2 enemy_a2[] = new Enemy_a2[enemy_a2_number];  //敵
-        private EnemyBullet2[][] eb_2 = new EnemyBullet2[enemy_a2_number][enemybullet_number];  //敵１の弾
+        private EnemyBullet2[][] eb_2 = new EnemyBullet2[enemy_a2_number][enemybullet_number];  //敵a3の弾
+    //敵a3
+        private static final int enemy_a3_number = 10;  //敵１の数
+        private Enemy_a3 enemy_a3[] = new Enemy_a3[enemy_a3_number];  //敵
+        private EnemyBullet2[][] eb_3 = new EnemyBullet2[enemy_a3_number][enemybullet_number];  //敵a3の弾
+    //敵b1
+    //敵c1
 
     //画面画像
         private Sprite2D title = new Sprite2D();        //タイトル画面
@@ -148,6 +154,9 @@ public class GameMaster implements GLSurfaceView.Renderer
                         EGC.EnemyGenerationCheck1(enemy_a1,enemy_a2,_width);
                     //敵a2
                         enemy_a2[0].Enemy_a2_GMD(enemy_a2,gl,timer,_width,_height,EGC);
+                    //敵a3
+                        enemy_a3[0].Enemy_a3_GMD(enemy_a3,gl,timer,_width,_height,EGC);
+                    //敵
 
                 //自機弾
                     //自機弾１
@@ -644,6 +653,11 @@ public class GameMaster implements GLSurfaceView.Renderer
                     enemy_a2[i] = new Enemy_a2();
                     enemy_a2[i].setTexture(gl,_context.getResources(),R.drawable.teki_a2);
                 }
+            //敵a3
+            for(int i=0; i<enemy_a3.length; i++){
+                enemy_a3[i] = new Enemy_a3();
+                enemy_a3[i].setTexture(gl,_context.getResources(),R.drawable.teki_a3);
+            }
 
         //敵弾関係
             //敵弾a1_1
@@ -683,6 +697,8 @@ public class GameMaster implements GLSurfaceView.Renderer
                 enemy_a1[0].EnemyInit(enemy_a1,_width,_height);
             //敵a2
                 enemy_a2[0].EnemyInit(enemy_a2,_width,_height);
+            //敵a2
+                enemy_a3[0].EnemyInit(enemy_a3,_width,_height);
 
         //敵弾関連の初期化
             //敵弾a1_eb1

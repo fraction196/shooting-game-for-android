@@ -15,34 +15,41 @@ public class EnemyBullet2 extends Sprite2D{
                 for (int i = 0; i < enemybullet[j].length; i++) {
                     //対応する敵の体力が1以上の時
                     if (enemy[j].hp >= 1) {
-                        //敵弾の体力が0であり、一定の間隔になった時
-                            if (((timer % 230) == 0) && (enemybullet[j][i].hp == 0)) {
+                            //敵弾の体力が0であり、一定の間隔になった時
+                            if (((timer % 100) == 0) && (enemybullet[j][i].hp == 0)) {
                                 //HPの値を変更する（発射待ち状態へ）
                                 enemybullet[j][i].hp = -1;
                             }
-                        //発射待ち状態であり、生存フラグが立っていないとき
+                            if ((enemy[j].eb_count == 1) && (enemybullet[j][i].hp == 0))enemybullet[j][i].hp = -1;
+                            //発射待ち状態であり、生存フラグが立っていないとき
                             if ((enemybullet[j][i].hp == -1) && (!enemybullet[j][i].hp_flag)) {
                                 //初期位置を対応する敵に合わせる
-                                    enemybullet[j][i]._pos._x = enemy[j]._pos._x;
-                                    enemybullet[j][i]._pos._y = enemy[j]._pos._y + (enemy[j]._height / 2) - (enemybullet[j][i]._height / 2);
+                                enemybullet[j][i]._pos._x = enemy[j]._pos._x;
+                                enemybullet[j][i]._pos._y = enemy[j]._pos._y + (enemy[j]._height / 2) - (enemybullet[j][i]._height / 2);
                                 //HPを1にし、生存フラグを立てる
-                                    enemybullet[j][i].hp_flag = true;
-                                    enemybullet[j][i].hp = 1;
-                                if(eb_count == 0)enemybullet[j][i].u_flag = true;
-                                if(eb_count == 1) {
-                                    enemybullet[j][i].d_flag = true;
-                                    eb_count = 0;
+                                enemybullet[j][i].hp_flag = true;
+                                enemybullet[j][i].hp = 1;
+                                if (enemy[j].eb_count == 0) {
+                                    enemybullet[j][i].u_flag = true;
+                                    enemy[j].eb_count += 1;
                                     break;
                                 }
-                                eb_count += 1;
-                            }
+                                if (enemy[j].eb_count == 1) {
+                                    enemybullet[j][i].d_flag = true;
+                                    enemy[j].eb_count -= 1;
+                                    break;
+                                }
 
+                            }
                     }
+                    //System.out.println("e " + enemy[j].eb_count);
                 }
             }
         //敵弾の移動
             for (int j = 0; j < enemy.length; j++) {
                 for (int i = 0; i < enemybullet[j].length; i++) {
+                    System.out.println("u " + enemybullet[j][i].hp);
+                    System.out.println("d " + enemybullet[j][i].d_flag);
                     //敵弾の体力が1の時
                         if (enemybullet[j][i].hp == 1) {
                             //画面に収まっているとき
@@ -50,11 +57,10 @@ public class EnemyBullet2 extends Sprite2D{
                                     //移動させる
                                         enemybullet[j][i]._pos._x -= 9;
                                         if(enemybullet[j][i].u_flag){
-                                            enemybullet[j][i]._pos._y += 10;
+                                            enemybullet[j][i]._pos._y += 5;
                                         }
                                         if(enemybullet[j][i].d_flag){
-                                            enemybullet[j][i]._pos._y -= 10;
-                                            eb_count = 0;
+                                            enemybullet[j][i]._pos._y -= 5;
                                         }
                                 } else {
                                     //画面外のときはHPと生存フラグをオフに
@@ -63,7 +69,6 @@ public class EnemyBullet2 extends Sprite2D{
                                         enemybullet[j][i].u_flag = false;
                                         enemybullet[j][i].d_flag = false;
                                 }
-                                eb_count += 1;
                         }
                 }
             }
@@ -85,11 +90,10 @@ public class EnemyBullet2 extends Sprite2D{
                 //初期位置の設定
                     enemybullet[j][i]._pos._x = 100 + _width;
                     enemybullet[j][i]._pos._y = 100 + _height;
-                //敵弾数の初期化
-                    eb_count = 0;
                 //フラグの初期化
                     enemybullet[j][i].u_flag = false;
                     enemybullet[j][i].d_flag = false;
+
             }
         }
     }

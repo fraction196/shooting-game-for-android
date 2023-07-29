@@ -4,10 +4,11 @@
 
 package com.example.shootinggame;
 
-import javax.microedition.khronos.opengles.GL10;
 import java.util.Random;
 
-public class Enemy_a2 extends Sprite2D {
+import javax.microedition.khronos.opengles.GL10;
+
+public class Enemy_a3 extends Sprite2D {
     //敵の数
     private static final int enemy_a2_number = 10;
     //一画面に出てくる敵の上限
@@ -50,7 +51,7 @@ public class Enemy_a2 extends Sprite2D {
     //private int teki_y;
 
     //敵の生成、移動、描画を行う関数
-    public void Enemy_a2_GMD(Enemy_a2 enemy[],GL10 gl,int timer,int _width, int _height,EnemyGenerationCheck EGC){
+    public void Enemy_a3_GMD(Enemy_a3 enemy[], GL10 gl, int timer, int _width, int _height, EnemyGenerationCheck EGC){
         //敵の生成
         //画面に存在する敵の数を数える変数を初期化
         number_of_enemies = 0;
@@ -156,7 +157,7 @@ public class Enemy_a2 extends Sprite2D {
         }
     }
     //敵の初期化
-    public void EnemyInit(Enemy_a2 enemy[], int _width, int _height) {
+    public void EnemyInit(Enemy_a3 enemy[], int _width, int _height) {
         for (int i = 0; i < enemy.length; i++) {
             //HPと生存フラグを初期化
                 enemy[i].hp = 0;
