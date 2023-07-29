@@ -16,7 +16,7 @@ public class EnemyBullet4 extends Sprite2D{
                     //対応する敵の体力が1以上の時
                     if (enemy[j].hp >= 1) {
                         //敵弾の体力が0であり、一定の間隔になった時
-                            if (((timer % 230) == 0) && (enemybullet[j][i].hp == 0)) {
+                            if (((timer % 160) == 0) && (enemybullet[j][i].hp == 0)) {
                                 //HPの値を変更する（発射待ち状態へ）
                                 enemybullet[j][i].hp = -1;
                             }

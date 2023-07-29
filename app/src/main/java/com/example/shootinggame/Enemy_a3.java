@@ -16,7 +16,7 @@ public class Enemy_a3 extends Sprite2D {
     //画面に存在する敵の数を数える変数
     public int number_of_enemies  = 0;
     //敵の速さ
-    public int enemy_x_speed = 3;
+    public int enemy_x_speed = 4;
     //敵の角度
     public int enemy_angle[] = new int[enemy_a2_number];
     //敵の初期のy座標

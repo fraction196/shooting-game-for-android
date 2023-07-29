@@ -46,7 +46,7 @@ public class Enemy_b1 extends Sprite2D {
         //出現頻度をランダムにする際の基準値（最低値）
             private int random_MIN = 300;
     //敵の体力
-        public int enemy_a1_hp = 2;
+        public int enemy_a1_hp = 3;
     //private Vector2D[] teki_movement = new Vector2D[enemy_number];
     //private boolean enemyflag = false;
     //private int teki_y;

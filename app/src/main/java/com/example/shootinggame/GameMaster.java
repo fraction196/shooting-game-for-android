@@ -152,17 +152,23 @@ public class GameMaster implements GLSurfaceView.Renderer
 
                 //敵の描画
                     //敵の出現範囲チェック
-                        EGC.EnemyGenerationCheck1(enemy_a1,enemy_a2,_width);
+                        EGC.EnemyGenerationCheck1(enemy_a1,enemy_a2,enemy_a3,enemy_b1,enemy_c1,_width);
                     //敵a1
                         if(timer >= 0)enemy_a1[0].Enemy_a1_GMD(enemy_a1,gl,timer,_width,_height,EGC);
                     //敵の出現範囲チェック
-                        EGC.EnemyGenerationCheck1(enemy_a1,enemy_a2,_width);
+                        EGC.EnemyGenerationCheck1(enemy_a1,enemy_a2,enemy_a3,enemy_b1,enemy_c1,_width);
                     //敵a2
                         if(timer >= 400)enemy_a2[0].Enemy_a2_GMD(enemy_a2,gl,timer-400,_width,_height,EGC);
+                    //敵の出現範囲チェック
+                        EGC.EnemyGenerationCheck1(enemy_a1,enemy_a2,enemy_a3,enemy_b1,enemy_c1,_width);
                     //敵a3
-                        if(timer >= 1000)enemy_a3[0].Enemy_a3_GMD(enemy_a3,gl,timer-1000,_width,_height,EGC);
+                    if(timer >= 1000)enemy_a3[0].Enemy_a3_GMD(enemy_a3,gl,timer-1000,_width,_height,EGC);
+                    //敵の出現範囲チェック
+                        EGC.EnemyGenerationCheck1(enemy_a1,enemy_a2,enemy_a3,enemy_b1,enemy_c1,_width);
                     //敵b1
                         if(timer >= 1500)enemy_b1[0].Enemy_b1_GMD(enemy_b1,gl,timer-1500,_width,_height,EGC);
+                    //敵の出現範囲チェック
+                        EGC.EnemyGenerationCheck1(enemy_a1,enemy_a2,enemy_a3,enemy_b1,enemy_c1,_width);
                     //敵c1
                         if(timer >= 2200)enemy_c1[0].Enemy_c1_GMD(enemy_c1,gl,timer-2200,_width,_height,EGC);
                 //自機弾
