@@ -100,8 +100,8 @@ public class GameMaster implements GLSurfaceView.Renderer
         private Sprite2D hp4_png = new Sprite2D();    //HP4
 
     //アイテム
-        private int Item_number;
-        private Item_p power[] = new Item_p[Item_number];
+        private static final int item_number = 1;  //アイテムの数
+        private Item_gameclear item_gameclear[] = new Item_gameclear[item_number];
 
     //スコア
         private SpriteText number = new SpriteText();
@@ -149,6 +149,13 @@ public class GameMaster implements GLSurfaceView.Renderer
 
                 //時間のカウント
                     getTime();
+                //ゲームクリアアイテムの出現
+                if(real_time >= 45){
+                    item_gameclear[0].Item_gameclear_GMD(item_gameclear,gl);
+                    CC.FighterCollisionCheck(item_gameclear,fighter,1);
+                    //ゲームクリア判定
+                    if(fighter.hp == 10)gamemode = 3;
+                }
 
                 //敵の描画
                     //敵の出現範囲チェック
@@ -255,27 +262,27 @@ public class GameMaster implements GLSurfaceView.Renderer
                             //衝突判定
                                 //敵a1と敵弾1
                                     if(timer>=0){
-                                        CC.FighterCollisionCheck(enemy_a1,fighter);
+                                        CC.FighterCollisionCheck(enemy_a1,fighter,0);
                                         CC.FighterCollisionCheck2(enemy_a1,eb_1,fighter);
                                     }
                                 //敵a2と敵弾2
                                     if(timer >= 400){
-                                        CC.FighterCollisionCheck(enemy_a2,fighter);
+                                        CC.FighterCollisionCheck(enemy_a2,fighter,0);
                                         CC.FighterCollisionCheck2(enemy_a2,eb_2,fighter);
                                     }
                                 //敵a3と敵弾3
                                     if(timer >= 1000) {
-                                        CC.FighterCollisionCheck(enemy_a3, fighter);
+                                        CC.FighterCollisionCheck(enemy_a3, fighter,0);
                                         CC.FighterCollisionCheck2(enemy_a3, eb_3, fighter);
                                     }
                                 //敵b1と敵弾4
                                     if(timer >= 1500) {
-                                        CC.FighterCollisionCheck(enemy_b1, fighter);
+                                        CC.FighterCollisionCheck(enemy_b1, fighter,0);
                                         CC.FighterCollisionCheck2(enemy_b1, eb_4, fighter);
                                     }
                                 //敵c1と敵弾5
                                     if(timer >= 2200) {
-                                        CC.FighterCollisionCheck(enemy_c1, fighter);
+                                        CC.FighterCollisionCheck(enemy_c1, fighter,0);
                                         CC.FighterCollisionCheck2(enemy_c1, eb_5, fighter);
                                     }
                         }
@@ -286,8 +293,7 @@ public class GameMaster implements GLSurfaceView.Renderer
                     drawScore(gl);
                     system_hp_Draw(gl);
 
-                //ゲームクリア判定
-                    GameClear(real_time);
+                    //GameClear(real_time);
                 break;
 
             case 2:     //ゲームオーバー画面
@@ -649,7 +655,7 @@ public class GameMaster implements GLSurfaceView.Renderer
                 system1._texWidth = 1024;
                 system1._width = 1024 ;
             //システム画面２とサイズ設定
-                system2.setTexture(gl,_context.getResources(),R.drawable.window_sys2);
+                system2.setTexture(gl,_context.getResources(),R.drawable.window_sys2_2);
                 system2._texWidth = 1024;
                 system2._width = 1024 ;
 
@@ -792,6 +798,14 @@ public class GameMaster implements GLSurfaceView.Renderer
                         eb_5[j][i]._width = 40;
                     }
                 }
+        //アイテム
+            //ゲームクリア
+                for(int i=0; i<item_gameclear.length; i++) {
+                    item_gameclear[i] = new Item_gameclear();
+                    item_gameclear[i].setTexture(gl, _context.getResources(), R.drawable.item_gameclear);
+                    item_gameclear[i]._width = 120;
+                    item_gameclear[i]._height = 120;
+                }
     }
 
     //初期化関連
@@ -828,6 +842,8 @@ public class GameMaster implements GLSurfaceView.Renderer
                 eb_4[0][0].EnemyBulletInit(enemy_b1,eb_4,_width,_height);
             //敵弾b1_eb5
                 eb_5[0][0].EnemyBulletInit(enemy_c1,eb_5,_width,_height);
+        //ゲームクリアアイテムの初期化
+            item_gameclear[0].Item_gameclear_Init(item_gameclear,_width,_height);
     }
     //このクラスの変数の初期化
     public void init(){

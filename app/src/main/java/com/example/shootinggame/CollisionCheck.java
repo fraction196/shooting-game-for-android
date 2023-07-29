@@ -6,7 +6,7 @@ package com.example.shootinggame;
 
 public class CollisionCheck {
     //自機とオブジェクト（敵）との当たり判定
-    public void FighterCollisionCheck(Sprite2D obj[],Fighter fighter){
+    public void FighterCollisionCheck(Sprite2D obj[],Fighter fighter,int gameclear){
         for(int i=0; i<obj.length; i++) {
             //オブジェクトと自機の座標の差を求める
                 float of_x = obj[i]._pos._x - fighter._pos._x;
@@ -18,6 +18,10 @@ public class CollisionCheck {
                             //自機の体力を減らし無敵時間のフラグを立てる
                                 fighter.hp -= 1;
                                 fighter.invincible_time = true;
+                            //ゲームクリアアイテムを取ったとき
+                                if(gameclear == 1){
+                                    fighter.hp = 10;
+                                }
                         }
                 }
         }
