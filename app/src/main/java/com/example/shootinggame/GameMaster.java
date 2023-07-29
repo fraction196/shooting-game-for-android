@@ -643,11 +643,11 @@ public class GameMaster implements GLSurfaceView.Renderer
                 background2._texWidth = 2048;
                 background2._width = 2048;
             //ゲームオーバー画面とサイズ設定
-                gameover.setTexture(gl,_context.getResources(),R.drawable.gameover_kari1);
+                gameover.setTexture(gl,_context.getResources(),R.drawable.gameover);
                 gameover._texWidth = 1024;
                 gameover._width = 1024 ;
             //ゲームクリア画面とサイズ設定
-                gameclear.setTexture(gl,_context.getResources(),R.drawable.gameclear_kari2);
+                gameclear.setTexture(gl,_context.getResources(),R.drawable.gameclear);
                 gameclear._texWidth = 1024;
                 gameclear._width = 1024 ;
             //システム画面１とサイズ設定
@@ -714,7 +714,7 @@ public class GameMaster implements GLSurfaceView.Renderer
 
         //自機関係
             //自機とサイズ設定
-                fighter.setTexture(gl,_context.getResources(),R.drawable.fighter2);
+                fighter.setTexture(gl,_context.getResources(),R.drawable.fighter);
                 fighter._width = 120;
                 fighter._height = 120;
 

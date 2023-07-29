@@ -12,7 +12,7 @@ public class CollisionCheck {
                 float of_x = obj[i]._pos._x - fighter._pos._x;
                 float of_y = obj[i]._pos._y - fighter._pos._y;
             //自機が無敵時間でないとき
-                if(!fighter.invincible_time) {
+                if(!fighter.invincible_time || gameclear == 1) {
                     //オブジェクト同士が重なっているとき
                         if ((of_x <= fighter.fighter_width)&&(of_x >= -obj[i]._width)&&(of_y <= fighter.fighter_height)&&(of_y >= -obj[i]._height)){
                             //自機の体力を減らし無敵時間のフラグを立てる
