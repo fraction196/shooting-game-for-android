@@ -44,20 +44,25 @@ public class GameMaster implements GLSurfaceView.Renderer
     //敵の生成
         private EnemyGenerationCheck EGC = new EnemyGenerationCheck();
     //敵a1
-        private static final int enemy_a1_number = 10;  //敵１の数
+        private static final int enemy_a1_number = 10;  //a1の数
         private Enemy_a1 enemy_a1[] = new Enemy_a1[enemy_a1_number];  //敵
         private EnemyBullet1[][] eb_1 = new EnemyBullet1[enemy_a1_number][enemybullet_number];  //敵a1の弾
     //敵a2
-        private static final int enemy_a2_number = 10;  //敵１の数
+        private static final int enemy_a2_number = 10;  //敵a2の数
         private Enemy_a2 enemy_a2[] = new Enemy_a2[enemy_a2_number];  //敵
         private EnemyBullet2[][] eb_2 = new EnemyBullet2[enemy_a2_number][enemybullet_number];  //敵a3の弾
     //敵a3
-        private static final int enemy_a3_number = 10;  //敵１の数
+        private static final int enemy_a3_number = 10;  //a3の数
         private Enemy_a3 enemy_a3[] = new Enemy_a3[enemy_a3_number];  //敵
-        private EnemyBullet2[][] eb_3 = new EnemyBullet2[enemy_a3_number][enemybullet_number];  //敵a3の弾
+        private EnemyBullet3[][] eb_3 = new EnemyBullet3[enemy_a3_number][enemybullet_number];  //敵a3の弾
     //敵b1
+        private static final int enemy_b1_number = 10;  //敵１の数
+        private Enemy_b1 enemy_b1[] = new Enemy_b1[enemy_b1_number];  //敵
+        private EnemyBullet4[][] eb_4 = new EnemyBullet4[enemy_b1_number][enemybullet_number];  //敵a3の弾
     //敵c1
-
+        private static final int enemy_c1_number = 10;  //敵１の数
+        private Enemy_c1 enemy_c1[] = new Enemy_c1[enemy_c1_number];  //敵
+        private EnemyBullet5[][] eb_5 = new EnemyBullet5[enemy_c1_number][enemybullet_number];  //敵a3の弾
     //画面画像
         private Sprite2D title = new Sprite2D();        //タイトル画面
         private Sprite2D background = new Sprite2D();   //背景画面1
@@ -149,14 +154,16 @@ public class GameMaster implements GLSurfaceView.Renderer
                     //敵の出現範囲チェック
                         EGC.EnemyGenerationCheck1(enemy_a1,enemy_a2,_width);
                     //敵a1
-                        enemy_a1[0].Enemy_a1_GMD(enemy_a1,gl,timer,_width,_height,EGC);
+                        if(timer<=900)enemy_a1[0].Enemy_a1_GMD(enemy_a1,gl,timer,_width,_height,EGC);
                     //敵の出現範囲チェック
                         EGC.EnemyGenerationCheck1(enemy_a1,enemy_a2,_width);
                     //敵a2
-                        enemy_a2[0].Enemy_a2_GMD(enemy_a2,gl,timer,_width,_height,EGC);
+                        if(timer >= 300)enemy_a2[0].Enemy_a2_GMD(enemy_a2,gl,timer-300,_width,_height,EGC);
                     //敵a3
-                        enemy_a3[0].Enemy_a3_GMD(enemy_a3,gl,timer,_width,_height,EGC);
-                    //敵
+                        if(timer >= 600)enemy_a3[0].Enemy_a3_GMD(enemy_a3,gl,timer-600,_width,_height,EGC);
+                    //敵b1
+                        if(timer >= 900)enemy_b1[0].Enemy_b1_GMD(enemy_b1,gl,timer-900,_width,_height,EGC);
+                    //敵c1
 
                 //自機弾
                     //自機弾１
@@ -182,12 +189,41 @@ public class GameMaster implements GLSurfaceView.Renderer
                                 enemy_a2[i].score_flag = false;
                             }
                         }
-
+                    //敵a3
+                        for(int i = 0; i < enemy_a3.length; i++){
+                                CC.FighterBulletCollisionCheck(fb_1, enemy_a3[i]);
+                                if(enemy_a3[i].score_flag){
+                                    score += 500;
+                                    enemy_a3[i].score_flag = false;
+                                }
+                            }
+                    //敵b1
+                        for(int i = 0; i < enemy_b1.length; i++){
+                            CC.FighterBulletCollisionCheck(fb_1, enemy_b1[i]);
+                            if(enemy_b1[i].score_flag){
+                                score += 1000;
+                                enemy_b1[i].score_flag = false;
+                            }
+                        }
+                    //敵b1
+                        for(int i = 0; i < enemy_c1.length; i++){
+                            CC.FighterBulletCollisionCheck(fb_1, enemy_c1[i]);
+                            if(enemy_c1[i].score_flag){
+                                score += 1000;
+                                enemy_c1[i].score_flag = false;
+                            }
+                        }
                 //敵の弾丸
                     //敵a1-1
-                        eb_1[0][0].EnemyBullet1_GMD(enemy_a1,eb_1,gl,timer);
+                        if(timer<=900)eb_1[0][0].EnemyBullet1_GMD(enemy_a1,eb_1,gl,timer);
                     //敵a2-2
-                        eb_2[0][0].EnemyBullet2_GMD(enemy_a2,eb_2,gl,timer);
+                        if(timer>= 300)eb_2[0][0].EnemyBullet2_GMD(enemy_a2,eb_2,gl,timer-300);
+                    //敵a3-3
+                        if(timer>= 600)eb_3[0][0].EnemyBullet3_GMD(enemy_a3,eb_3,gl,timer-600);
+                    //敵b1-4
+                        if(timer>= 900)eb_4[0][0].EnemyBullet4_GMD(enemy_b1,eb_4,gl,timer-900);
+                    //敵c1-5
+                        if(timer>= 0)eb_4[0][0].EnemyBullet4_GMD(enemy_b1,eb_4,gl,timer-0);
 
                 //自機の描画
                     fighter.FighterMove(fighter,_width,_height);
@@ -200,11 +236,30 @@ public class GameMaster implements GLSurfaceView.Renderer
                             fighter.draw(gl);
                             //衝突判定
                                 //敵a1と敵弾1
-                                    CC.FighterCollisionCheck(enemy_a1,fighter);
-                                    CC.FighterCollisionCheck2(enemy_a1,eb_1,fighter);
+                                    if(timer<=900){
+                                        CC.FighterCollisionCheck(enemy_a1,fighter);
+                                        CC.FighterCollisionCheck2(enemy_a1,eb_1,fighter);
+                                    }
                                 //敵a2と敵弾2
-                                    CC.FighterCollisionCheck(enemy_a2,fighter);
-                                    CC.FighterCollisionCheck2(enemy_a2,eb_2,fighter);
+                                    if(timer >= 300){
+                                        CC.FighterCollisionCheck(enemy_a2,fighter);
+                                        CC.FighterCollisionCheck2(enemy_a2,eb_2,fighter);
+                                    }
+                                //敵a3と敵弾3
+                                    if(timer >= 600) {
+                                        CC.FighterCollisionCheck(enemy_a3, fighter);
+                                        CC.FighterCollisionCheck2(enemy_a3, eb_3, fighter);
+                                    }
+                                //敵b1と敵弾4
+                                    if(timer >= 900) {
+                                        CC.FighterCollisionCheck(enemy_b1, fighter);
+                                        CC.FighterCollisionCheck2(enemy_b1, eb_4, fighter);
+                                    }
+                                //敵c1と敵弾5
+                                    if(timer >= 0) {
+                                        CC.FighterCollisionCheck(enemy_c1, fighter);
+                                        CC.FighterCollisionCheck2(enemy_c1, eb_5, fighter);
+                                    }
                         }
                 //自機の生存判定
                     if(fighter.hp == 0) gamemode = 2;
@@ -256,7 +311,7 @@ public class GameMaster implements GLSurfaceView.Renderer
         //実際の時間
             if(timer%60 == 0){
                 real_time += 1;
-                //System.out.println("real_time " + real_time);
+                System.out.println("real_time " + real_time);
             }
     }
 
@@ -654,10 +709,20 @@ public class GameMaster implements GLSurfaceView.Renderer
                     enemy_a2[i].setTexture(gl,_context.getResources(),R.drawable.teki_a2);
                 }
             //敵a3
-            for(int i=0; i<enemy_a3.length; i++){
-                enemy_a3[i] = new Enemy_a3();
-                enemy_a3[i].setTexture(gl,_context.getResources(),R.drawable.teki_a3);
-            }
+                for(int i=0; i<enemy_a3.length; i++){
+                    enemy_a3[i] = new Enemy_a3();
+                    enemy_a3[i].setTexture(gl,_context.getResources(),R.drawable.teki_a3);
+                }
+            //敵b1
+                for(int i=0; i<enemy_b1.length; i++){
+                    enemy_b1[i] = new Enemy_b1();
+                    enemy_b1[i].setTexture(gl,_context.getResources(),R.drawable.teki_b2);
+                }
+            //敵b1
+                for(int i=0; i<enemy_c1.length; i++){
+                    enemy_c1[i] = new Enemy_c1();
+                    enemy_c1[i].setTexture(gl,_context.getResources(),R.drawable.teki_c3);
+                }
 
         //敵弾関係
             //敵弾a1_1
@@ -670,14 +735,41 @@ public class GameMaster implements GLSurfaceView.Renderer
                     }
                 }
             //敵弾a2_2
-            for(int j=0; j<enemy_a2.length; j++) {
-                for (int i = 0; i < eb_2[j].length; i++) {
-                    eb_2[j][i] = new EnemyBullet2();
-                    eb_2[j][i].setTexture(gl, _context.getResources(), R.drawable.eb_2);
-                    eb_2[j][i]._height = 40;
-                    eb_2[j][i]._width = 40;
+                for(int j=0; j<enemy_a2.length; j++) {
+                    for (int i = 0; i < eb_2[j].length; i++) {
+                        eb_2[j][i] = new EnemyBullet2();
+                        eb_2[j][i].setTexture(gl, _context.getResources(), R.drawable.eb_2);
+                        eb_2[j][i]._height = 40;
+                        eb_2[j][i]._width = 40;
+                    }
                 }
-            }
+            //敵弾a3_3
+                for(int j=0; j<enemy_a3.length; j++) {
+                    for (int i = 0; i < eb_3[j].length; i++) {
+                        eb_3[j][i] = new EnemyBullet3();
+                        eb_3[j][i].setTexture(gl, _context.getResources(), R.drawable.eb_3);
+                        eb_3[j][i]._height = 40;
+                        eb_3[j][i]._width = 40;
+                    }
+                }
+            //敵弾b1_4
+                for(int j=0; j<enemy_b1.length; j++) {
+                    for (int i = 0; i < eb_4[j].length; i++) {
+                        eb_4[j][i] = new EnemyBullet4();
+                        eb_4[j][i].setTexture(gl, _context.getResources(), R.drawable.eb_5);
+                        eb_4[j][i]._height = 60;
+                        eb_4[j][i]._width = 120;
+                    }
+                }
+            //敵弾c1_5
+                for(int j=0; j<enemy_c1.length; j++) {
+                    for (int i = 0; i < eb_5[j].length; i++) {
+                        eb_5[j][i] = new EnemyBullet5();
+                        eb_5[j][i].setTexture(gl, _context.getResources(), R.drawable.eb_4);
+                        eb_5[j][i]._height = 40;
+                        eb_5[j][i]._width = 40;
+                    }
+                }
     }
 
     //初期化関連
@@ -697,14 +789,23 @@ public class GameMaster implements GLSurfaceView.Renderer
                 enemy_a1[0].EnemyInit(enemy_a1,_width,_height);
             //敵a2
                 enemy_a2[0].EnemyInit(enemy_a2,_width,_height);
-            //敵a2
+            //敵a3
                 enemy_a3[0].EnemyInit(enemy_a3,_width,_height);
-
+            //敵b1
+                enemy_b1[0].EnemyInit(enemy_b1,_width,_height);
+            //敵c1
+                enemy_c1[0].EnemyInit(enemy_c1,_width,_height);
         //敵弾関連の初期化
             //敵弾a1_eb1
                 eb_1[0][0].EnemyBulletInit(enemy_a1,eb_1,_width,_height);
             //敵弾a2_eb2
                 eb_2[0][0].EnemyBulletInit(enemy_a2,eb_2,_width,_height);
+            //敵弾a3_eb3
+                eb_3[0][0].EnemyBulletInit(enemy_a3,eb_3,_width,_height);
+            //敵弾b1_eb3
+                eb_4[0][0].EnemyBulletInit(enemy_b1,eb_4,_width,_height);
+            //敵弾b1_eb5
+                eb_5[0][0].EnemyBulletInit(enemy_c1,eb_5,_width,_height);
     }
     //このクラスの変数の初期化
     public void init(){

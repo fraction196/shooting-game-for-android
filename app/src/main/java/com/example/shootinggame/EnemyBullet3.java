@@ -7,9 +7,9 @@ package com.example.shootinggame;
 import javax.microedition.khronos.opengles.GL10;
 
 
-public class EnemyBullet2 extends Sprite2D{
+public class EnemyBullet3 extends Sprite2D{
     //敵弾の生成、移動、描画を行う関数
-    public void EnemyBullet2_GMD(Enemy_a2 enemy[], EnemyBullet2 enemybullet[][], GL10 gl, int timer){
+    public void EnemyBullet3_GMD(Enemy_a3 enemy[], EnemyBullet3 enemybullet[][], GL10 gl, int timer){
         //敵弾の生成
             for (int j = 0; j < enemy.length; j++) {
                 for (int i = 0; i < enemybullet[j].length; i++) {
@@ -78,7 +78,7 @@ public class EnemyBullet2 extends Sprite2D{
             }
     }
     //敵弾の初期化
-    public void EnemyBulletInit(Enemy_a2 enemy[], EnemyBullet2 enemybullet[][], int _width, int _height){
+    public void EnemyBulletInit(Enemy_a3 enemy[], EnemyBullet3 enemybullet[][], int _width, int _height){
         for(int j=0; j<enemy.length; j++) {
             for (int i = 0; i < enemybullet[j].length; i++) {
                 //HPと生存フラグを初期化
