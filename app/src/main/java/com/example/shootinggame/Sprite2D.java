@@ -37,6 +37,10 @@ public class Sprite2D
 		public int _texHeight;
 
 	//移動オブジェクトに使用する変数
+		//敵弾に関する変数
+			public int eb_count = 0;
+			public boolean u_flag = false;
+			public boolean d_flag = false;
 		//体力と体力フラグ
 			public int hp = 0;
 			public boolean hp_flag = false;

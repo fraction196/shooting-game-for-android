@@ -8,18 +8,27 @@ import javax.microedition.khronos.opengles.GL10;
 import java.util.Random;
 
 public class Enemy_a1 extends Sprite2D {
-    //敵１の数
+    //敵の数
         private static final int enemy_a1_number = 10;
     //一画面に出てくる敵の上限
         public int noe_max = 6;
     //画面に存在する敵の数を数える変数
         public int number_of_enemies  = 0;
-    //敵１の速さ
-        public int teki1_x_speed = 5;
+    //敵の速さ
+        public int enemy_x_speed = 5;
     //敵の角度
-        public int teki_angle[] = new int[enemy_a1_number];
+        public int enemy_angle[] = new int[enemy_a1_number];
     //敵の初期のy座標
-        public int teki_first_y[] = new int[enemy_a1_number];
+        public int enemy_first_y[] = new int[enemy_a1_number];
+    //敵の生成に関して
+        //y座標の上
+            //public float enemy_y_over = 0;
+        //y座標の下
+            //public float enemy_y_under = 0;
+        //敵の生成フラグ
+            //public boolean enemy_generation_flag = false;
+        //敵の生成
+            //public EnemyGenerationCheck EGC = new EnemyGenerationCheck();
 
     //敵の出現頻度に関する変数
         //敵の出現間隔
@@ -30,14 +39,18 @@ public class Enemy_a1 extends Sprite2D {
             private int enemy_stoptime = 0;
         //敵が生成された時刻
             private int enemy_generation_time = 0;
-    //敵1の体力
+        //出現頻度をランダムにする際のランダムの幅
+            private int random_width = 81;
+        //出現頻度をランダムにする際の基準値（最低値）
+            private int random_MIN = 100;
+    //敵の体力
         public int enemy_a1_hp = 3;
     //private Vector2D[] teki_movement = new Vector2D[enemy_number];
     //private boolean enemyflag = false;
     //private int teki_y;
 
     //敵の生成、移動、描画を行う関数
-    public void Enemy_a1_GMD(Enemy_a1 enemy[],GL10 gl,int timer,int _width, int _height){
+    public void Enemy_a1_GMD(Enemy_a1 enemy[],GL10 gl,int timer,int _width, int _height,EnemyGenerationCheck EGC){
         //敵の生成
             //画面に存在する敵の数を数える変数を初期化
                 number_of_enemies = 0;
@@ -49,7 +62,7 @@ public class Enemy_a1 extends Sprite2D {
                 if (number_of_enemies < noe_max) {
                     for (int i = 0; i < enemy.length; i++) {
                         //ランダム変数の作成
-                            Random r1 = new Random();
+                            //Random r1 = new Random();
                         //敵が前回生成されてからの時間
                             time_since_last_enemy = timer - (enemy_generation_time + enemy_stoptime);
                         //敵の体力が0であり、一定の間隔になった時
@@ -59,10 +72,15 @@ public class Enemy_a1 extends Sprite2D {
                         //出現待ち状態であり、生存フラグが立っていないとき
                             if ((enemy[i].hp == -1) && (!enemy[i].hp_flag)) {
                                 //敵のy座標をランダムに設定
-                                    teki_first_y[i] = r1.nextInt(_height - (int) enemy[i]._height);
+                                while(!EGC.enemy_generation_flag) {
+                                    Random r1 = new Random();
+                                    enemy_first_y[i] = r1.nextInt(_height - (int) enemy[i]._height);
+                                    EGC.EnemyGenerationCheck2(enemy_first_y[i]);
+                                    if(EGC.enemy_generation_flag)break;
+                                }
                                 //初期位置を設定
                                     enemy[i]._pos._x = 400 + _width;
-                                    enemy[i]._pos._y = teki_first_y[i];
+                                    enemy[i]._pos._y = enemy_first_y[i];
                                 //HPを指定の値にし、生存フラグを立てる
                                     enemy[i].hp_flag = true;
                                     enemy[i].hp = enemy_a1_hp;
@@ -73,7 +91,9 @@ public class Enemy_a1 extends Sprite2D {
                                 //ランダムな値を作成
                                     Random r2 = new Random();
                                 //敵の出現間隔をランダムに設定
-                                    enemy_frequency = r2.nextInt(81) + 85;
+                                    enemy_frequency = r2.nextInt(random_width) + random_MIN;
+                                //生成フラグを下ろす
+                                    EGC.enemy_generation_flag = false;
                                 break;
                             }
                     }
@@ -90,7 +110,7 @@ public class Enemy_a1 extends Sprite2D {
                         //画面に収まっているとき
                             if (enemy[i]._pos._x + enemy[i]._width > 0) {
                                 //移動させる
-                                    enemy[i]._pos._x -= teki1_x_speed;
+                                    enemy[i]._pos._x -= enemy_x_speed;
                                     //enemy[i]._pos._y += teki_angle[i] + teki_movement[i]._y;
                                     enemy[i]._pos._y += 0;
                         } else {
@@ -154,5 +174,6 @@ public class Enemy_a1 extends Sprite2D {
             time_since_last_enemy = 0;
             enemy_stoptime = 0;
             enemy_generation_time = 0;
+
     }
 }
