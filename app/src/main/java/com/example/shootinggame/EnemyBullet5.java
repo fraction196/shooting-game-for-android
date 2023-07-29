@@ -20,6 +20,7 @@ public class EnemyBullet5 extends Sprite2D{
                                 //HPの値を変更する（発射待ち状態へ）
                                 enemybullet[j][i].hp = -1;
                             }
+                            //同じフレーム内で弾がすでに発射された時、さらにもう一つの弾を発射待ち状態にする
                             if ((enemy[j].eb_count >= 1) && (enemybullet[j][i].hp == 0))enemybullet[j][i].hp = -1;
                             //発射待ち状態であり、生存フラグが立っていないとき
                             if ((enemybullet[j][i].hp == -1) && (!enemybullet[j][i].hp_flag)) {
@@ -29,27 +30,37 @@ public class EnemyBullet5 extends Sprite2D{
                                 //HPを1にし、生存フラグを立てる
                                 enemybullet[j][i].hp_flag = true;
                                 enemybullet[j][i].hp = 1;
+                                //カウントが0の時（1発目）
                                 if (enemy[j].eb_count == 0) {
+                                    //上方向へのフラグを立てる
                                     enemybullet[j][i].u_flag = true;
                                     enemy[j].eb_count += 1;
                                     break;
                                 }
+                                //カウントが1の時（2発目）
                                 if (enemy[j].eb_count == 1) {
+                                    //下方向へのフラグを立てる
                                     enemybullet[j][i].d_flag = true;
                                     enemy[j].eb_count += 1;
                                     break;
                                 }
+                                //カウントが2の時（3発目）
                                 if (enemy[j].eb_count == 2) {
+                                    //左方向へのフラグを立てる
                                     enemybullet[j][i].w_flag = true;
                                     enemy[j].eb_count += 1;
                                     break;
                                 }
+                                //カウントが3の時（4発目）
                                 if (enemy[j].eb_count == 3) {
+                                    //左上方向へのフラグを立てる
                                     enemybullet[j][i].n_w_flag = true;
                                     enemy[j].eb_count += 1;
                                     break;
                                 }
+                                //カウントが4の時（5発目）
                                 if (enemy[j].eb_count == 4) {
+                                    //左下方向へのフラグを立てる
                                     enemybullet[j][i].s_w_flag = true;
                                     enemy[j].eb_count = 0;
                                     break;
@@ -67,10 +78,15 @@ public class EnemyBullet5 extends Sprite2D{
                                 if (enemybullet[j][i]._pos._x > 0) {
                                     //移動させる
                                         enemybullet[j][i]._pos._x -= 6;
+                                    //1発目の弾について
                                         if(enemybullet[j][i].w_flag)enemybullet[j][i]._pos._y += 0;
+                                    //2発目の弾について
                                         if(enemybullet[j][i].n_w_flag)enemybullet[j][i]._pos._y += 2;
+                                    //3発目の弾について
                                         if(enemybullet[j][i].s_w_flag)enemybullet[j][i]._pos._y -= 2;
+                                    //4発目の弾について
                                         if(enemybullet[j][i].u_flag)enemybullet[j][i]._pos._y += 5;
+                                    //5発目の弾について
                                         if(enemybullet[j][i].d_flag)enemybullet[j][i]._pos._y -= 5;
                                 } else {
                                     //画面外のときはHPと生存フラグをオフに

@@ -21,16 +21,6 @@ public class Enemy_c1 extends Sprite2D {
         public int enemy_angle[] = new int[enemy_a1_number];
     //敵の初期のy座標
         public int enemy_first_y[] = new int[enemy_a1_number];
-    //敵の生成に関して
-        //y座標の上
-            //public float enemy_y_over = 0;
-        //y座標の下
-            //public float enemy_y_under = 0;
-        //敵の生成フラグ
-            //public boolean enemy_generation_flag = false;
-        //敵の生成
-            //public EnemyGenerationCheck EGC = new EnemyGenerationCheck();
-
     //敵の出現頻度に関する変数
         //敵の出現間隔
             private int enemy_frequency = 0;
@@ -46,10 +36,6 @@ public class Enemy_c1 extends Sprite2D {
             private int random_MIN = 400;
     //敵の体力
         public int enemy_a1_hp = 6;
-    //private Vector2D[] teki_movement = new Vector2D[enemy_number];
-    //private boolean enemyflag = false;
-    //private int teki_y;
-
     //敵の生成、移動、描画を行う関数
     public void Enemy_c1_GMD(Enemy_c1 enemy[], GL10 gl, int timer, int _width, int _height, EnemyGenerationCheck EGC){
         //敵の生成
@@ -62,8 +48,6 @@ public class Enemy_c1 extends Sprite2D {
             //画面に存在する敵が一定値未満の時
                 if (number_of_enemies < noe_max) {
                     for (int i = 0; i < enemy.length; i++) {
-                        //ランダム変数の作成
-                            //Random r1 = new Random();
                         //敵が前回生成されてからの時間
                             time_since_last_enemy = timer - (enemy_generation_time + enemy_stoptime);
                         //敵の体力が0であり、一定の間隔になった時
@@ -74,6 +58,7 @@ public class Enemy_c1 extends Sprite2D {
                             if ((enemy[i].hp == -1) && (!enemy[i].hp_flag)) {
                                 //敵のy座標をランダムに設定
                                 while(!EGC.enemy_generation_flag) {
+                                    //ランダムに設定したy座標が他の敵と衝突していたら乱数を作り直す
                                     Random r1 = new Random();
                                     enemy_first_y[i] = r1.nextInt(_height - (int) enemy[i]._height);
                                     EGC.EnemyGenerationCheck2(enemy_first_y[i]);

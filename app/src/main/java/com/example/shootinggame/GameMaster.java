@@ -10,6 +10,7 @@ import android.opengl.GLSurfaceView;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 import android.media.SoundPool;
+import android.media.MediaPlayer;
 
 public class GameMaster implements GLSurfaceView.Renderer
 {
@@ -20,7 +21,7 @@ public class GameMaster implements GLSurfaceView.Renderer
         public int _height;
 
     //ゲームモード
-        public int gamemode = 0; //0でタイトル画面、1でゲーム画面、2でゲームオーバー画面、3でゲームクリア画面
+        public int gamemode = 0; //0でタイトル画面、1でゲーム画面、2でゲームオーバー画面、3でゲームクリア画面、4でシステム画面
 
     //タッチした座標を保存する変数
         public float touch_first_x = 0;
@@ -41,7 +42,7 @@ public class GameMaster implements GLSurfaceView.Renderer
 
     //敵全体
         private static final int enemybullet_number = 100;  //敵弾数
-    //敵の生成
+    //敵の生成の衝突判定
         private EnemyGenerationCheck EGC = new EnemyGenerationCheck();
     //敵a1
         private static final int enemy_a1_number = 10;  //a1の数
@@ -50,7 +51,7 @@ public class GameMaster implements GLSurfaceView.Renderer
     //敵a2
         private static final int enemy_a2_number = 10;  //敵a2の数
         private Enemy_a2 enemy_a2[] = new Enemy_a2[enemy_a2_number];  //敵
-        private EnemyBullet2[][] eb_2 = new EnemyBullet2[enemy_a2_number][enemybullet_number];  //敵a3の弾
+        private EnemyBullet2[][] eb_2 = new EnemyBullet2[enemy_a2_number][enemybullet_number];  //敵a2の弾
     //敵a3
         private static final int enemy_a3_number = 10;  //a3の数
         private Enemy_a3 enemy_a3[] = new Enemy_a3[enemy_a3_number];  //敵
@@ -58,11 +59,11 @@ public class GameMaster implements GLSurfaceView.Renderer
     //敵b1
         private static final int enemy_b1_number = 10;  //敵b1の数
         private Enemy_b1 enemy_b1[] = new Enemy_b1[enemy_b1_number];  //敵
-        private EnemyBullet4[][] eb_4 = new EnemyBullet4[enemy_b1_number][enemybullet_number];  //敵a3の弾
+        private EnemyBullet4[][] eb_4 = new EnemyBullet4[enemy_b1_number][enemybullet_number];  //敵b1の弾
     //敵c1
         private static final int enemy_c1_number = 10;  //敵c1の数
         private Enemy_c1 enemy_c1[] = new Enemy_c1[enemy_c1_number];  //敵
-        private EnemyBullet5[][] eb_5 = new EnemyBullet5[enemy_c1_number][enemybullet_number];  //敵a3の弾
+        private EnemyBullet5[][] eb_5 = new EnemyBullet5[enemy_c1_number][enemybullet_number];  //敵c1の弾
     //画面画像
         private Sprite2D title = new Sprite2D();        //タイトル画面
         private Sprite2D background = new Sprite2D();   //背景画面1
@@ -111,20 +112,16 @@ public class GameMaster implements GLSurfaceView.Renderer
     //衝突判定
         private CollisionCheck CC = new CollisionCheck();
 
-    //爆発画像
-        public Sprite2D explode = new Sprite2D();
-
-    //サウンド
-        private static SoundPool se_explosion;
-        private int soundID;
+    //BGM
+        private MediaPlayer bgm = new MediaPlayer();
 
     //@Override
     //コンストラクタ
     public GameMaster(Context context)
     {
         _context = context;
-        se_explosion = new SoundPool(1, AudioManager.STREAM_MUSIC,0);
-        soundID = se_explosion.load(context, R.raw.explode,1);
+        //BGMの再生
+        bgm = MediaPlayer.create(context, R.raw.bgm);
     }
 
     //画面関係
@@ -146,7 +143,8 @@ public class GameMaster implements GLSurfaceView.Renderer
                     background.draw(gl,getRatio());
                     background2.draw(gl,getRatio());
                     BackgroundMove(gl,getRatio());
-
+                //BGMを再生
+                    bgm.start();
                 //時間のカウント
                     getTime();
                 //ゲームクリアアイテムの出現
@@ -238,7 +236,7 @@ public class GameMaster implements GLSurfaceView.Renderer
                                     enemy_c1[i].score_flag = false;
                                 }
                         }
-                //敵の弾丸
+                //敵の弾丸の描画
                     //敵a1-1
                         if(timer>=0)eb_1[0][0].EnemyBullet1_GMD(enemy_a1,eb_1,gl,timer);
                     //敵a2-2
@@ -292,11 +290,12 @@ public class GameMaster implements GLSurfaceView.Renderer
                 //スコアとシステムの描画
                     drawScore(gl);
                     system_hp_Draw(gl);
-
-                    //GameClear(real_time);
                 break;
 
             case 2:     //ゲームオーバー画面
+                //BGMを止め、始めの再生場所にリセットする
+                    bgm.pause();
+                    bgm.seekTo(0);
                 //ゲームオーバー画像描画
                     gameover.draw(gl,getRatio());
                 //ボタン描画
@@ -304,6 +303,9 @@ public class GameMaster implements GLSurfaceView.Renderer
                 break;
 
             case 3:     //ゲームクリア画面
+                //BGMを止め、始めの再生場所にリセットする
+                    bgm.pause();
+                    bgm.seekTo(0);
                 //ゲームクリア画面描画
                     gameclear.draw(gl,getRatio());
                 //ボタン描画
@@ -335,7 +337,7 @@ public class GameMaster implements GLSurfaceView.Renderer
         //実際の時間
             if(timer%60 == 0){
                 real_time += 1;
-                System.out.println("real_time " + real_time);
+                //System.out.println("real_time " + real_time);
             }
     }
 
@@ -371,11 +373,6 @@ public class GameMaster implements GLSurfaceView.Renderer
                     number._pos._y = 485;
                     number.draw(gl,score,1);
             }
-    }
-
-    //ゲームクリアを判定する関数
-    private void GameClear(int real_time){
-        //if(real_time == 45)gamemode = 3;
     }
 
     //ゲーム中のシステム画面と自機の体力を表示する関数
@@ -746,7 +743,7 @@ public class GameMaster implements GLSurfaceView.Renderer
                     enemy_b1[i] = new Enemy_b1();
                     enemy_b1[i].setTexture(gl,_context.getResources(),R.drawable.teki_b2);
                 }
-            //敵b1
+            //敵c1
                 for(int i=0; i<enemy_c1.length; i++){
                     enemy_c1[i] = new Enemy_c1();
                     enemy_c1[i].setTexture(gl,_context.getResources(),R.drawable.teki_c3);
@@ -840,7 +837,7 @@ public class GameMaster implements GLSurfaceView.Renderer
                 eb_3[0][0].EnemyBulletInit(enemy_a3,eb_3,_width,_height);
             //敵弾b1_eb3
                 eb_4[0][0].EnemyBulletInit(enemy_b1,eb_4,_width,_height);
-            //敵弾b1_eb5
+            //敵弾c1_eb5
                 eb_5[0][0].EnemyBulletInit(enemy_c1,eb_5,_width,_height);
         //ゲームクリアアイテムの初期化
             item_gameclear[0].Item_gameclear_Init(item_gameclear,_width,_height);
